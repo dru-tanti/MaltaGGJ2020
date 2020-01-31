@@ -16,10 +16,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 _lookPoint  = Vector3.zero;
     private Rigidbody _rb;
 
+    private static PlayerController _instance;
+    public static PlayerController Instance { get { return _instance; } }
+
     // Start is called before the first frame update
     void Start()
     {
         MainCamera = Camera.main;
+        _instance = this;
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -62,4 +66,6 @@ public class PlayerController : MonoBehaviour
         PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
         
     }
+
+    public Vector3 LookPoint { get { return _lookPoint;}}
 }

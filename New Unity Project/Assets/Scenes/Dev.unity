@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bullet: {fileID: -679306718382864352, guid: 72628849c06d51a49bdd3f892b6fdc50, type: 3}
-  AmmountToPool: 5
+  AmmountToPool: 20
 --- !u!4 &1905181203
 Transform:
   m_ObjectHideFlags: 0
