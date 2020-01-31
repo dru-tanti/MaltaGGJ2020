@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
         if(velocity != Vector3.zero)
         {
             _rb.MovePosition(_rb.position + velocity * Time.fixedDeltaTime);
+
+            PlayerLegs.rotation = Quaternion.LookRotation(velocity);
         }
     }
 
