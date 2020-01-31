@@ -825,6 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c5fe6c31ff76d4085f5ef7ac14ce30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   TestBullet: {fileID: -679306718382864352, guid: 72628849c06d51a49bdd3f892b6fdc50,
     type: 3}
   TestBarrel: {fileID: 7376934197121980802}

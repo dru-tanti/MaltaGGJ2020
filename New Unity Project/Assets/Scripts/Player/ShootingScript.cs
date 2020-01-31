@@ -6,6 +6,9 @@ using MEC;
 public class ShootingScript : MonoBehaviour
 {
 
+    public enum ShootType { Bullet, Lobbing };
+    public ShootType Type;
+
     public Rigidbody TestBullet;
     public Transform TestBarrel;
 
@@ -55,9 +58,23 @@ public class ShootingScript : MonoBehaviour
         randY += bulletNum * 12;
         Rigidbody proj = _spawnablePool.GetBullet();
         proj.GetComponent<BulletScript>().SetStats(_damage);
-        proj.transform.position = TestBarrel.position;
-        proj.transform.rotation = TestBarrel.rotation;
-        proj.transform.rotation *= Quaternion.Euler(90, randY, 0);
-        proj.AddForce(proj.transform.up * 50f, ForceMode.VelocityChange);
+
+        switch (Type){
+
+            case ShootType.Bullet:
+
+                proj.transform.position = TestBarrel.position;
+                proj.transform.rotation = TestBarrel.rotation;
+                proj.transform.rotation *= Quaternion.Euler(90, randY, 0);
+                proj.AddForce(proj.transform.up * 75f, ForceMode.VelocityChange);
+                break;
+            case ShootType.Lobbing:
+                proj.transform.position = TestBarrel.position;
+                proj.transform.rotation = TestBarrel.rotation;
+                proj.transform.rotation *= Quaternion.Euler(45, randY, 0);
+                proj.AddForce(proj.transform.up * 10f, ForceMode.VelocityChange);
+                break;
+        }
+
     }
 }

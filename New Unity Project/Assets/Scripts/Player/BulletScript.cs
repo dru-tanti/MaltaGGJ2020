@@ -7,8 +7,6 @@ using TMPro;
 
 public class BulletScript : MonoBehaviour
 {
-    public enum ProjectileType { Bullet, Lobbing};
-    public ProjectileType Type;
     private const string ENEMY_TAG = "Enemy";
     private float _dmg;
     private SpawnablePool _spawnPool;
