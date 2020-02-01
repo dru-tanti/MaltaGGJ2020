@@ -8,14 +8,13 @@ public class ShootingScript : MonoBehaviour
 
     public enum ShootType { Bullet, Lobbing };
     public ShootType Type;
-
     public Rigidbody TestBullet;
     public Transform TestBarrel;
 
-    private float _rateOfFire = 5;
-    private int _damage = 25;
-    private float _accuracy = 5f;
-    private int _bullets = 1;
+    public float _rateOfFire;
+    public int _damage;
+    public float _accuracy;
+    public int _bullets;
 
     private bool _isShooting = false;
 
@@ -56,23 +55,32 @@ public class ShootingScript : MonoBehaviour
     private void ShootProjectile(int bulletNum){
         float randY = Random.Range(-_accuracy, _accuracy);
         randY += bulletNum * 12;
-        Rigidbody proj = _spawnablePool.GetBullet();
-        proj.GetComponent<BulletScript>().SetStats(_damage);
 
         switch (Type){
 
             case ShootType.Bullet:
-
+                Rigidbody proj = _spawnablePool.GetBullet();
+                proj.GetComponent<BulletScript>().SetStats(_damage);
                 proj.transform.position = TestBarrel.position;
                 proj.transform.rotation = TestBarrel.rotation;
                 proj.transform.rotation *= Quaternion.Euler(90, randY, 0);
-                proj.AddForce(proj.transform.up * 75f, ForceMode.VelocityChange);
+                proj.AddForce(proj.transform.up * 125f, ForceMode.VelocityChange);
                 break;
             case ShootType.Lobbing:
-                proj.transform.position = TestBarrel.position;
-                proj.transform.rotation = TestBarrel.rotation;
-                proj.transform.rotation *= Quaternion.Euler(45, randY, 0);
-                proj.AddForce(proj.transform.up * 10f, ForceMode.VelocityChange);
+                float dist = Vector3.Distance(transform.position, PlayerController.Instance.LookPoint);
+                Rigidbody shell = _spawnablePool.GetShell();
+                shell.GetComponent<BulletScript>().SetStats(_damage);
+                if(dist < 3){
+                    dist = 3;
+                }
+
+                if(dist > 16){
+                    dist = 16;
+                }
+                shell.transform.position = TestBarrel.position;
+                shell.transform.rotation = TestBarrel.rotation;
+                shell.transform.rotation *= Quaternion.Euler(90, randY, 0);
+                shell.AddForce(shell.transform.up * (dist * Random.Range(2.1f, 3.3f)), ForceMode.VelocityChange);
                 break;
         }
 

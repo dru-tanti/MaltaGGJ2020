@@ -5,11 +5,13 @@ using UnityEngine;
 public class SpawnablePool : MonoBehaviour
 {
     public Rigidbody Bullet;
+    public Rigidbody Shell;
 
     public int AmmountToPool;
 
     private List<Rigidbody> BulletList = new List<Rigidbody>();
-        private List<GameObject> DamageTextList = new List<GameObject>();
+    private List<Rigidbody> ShellList = new List<Rigidbody>();
+    private List<GameObject> DamageTextList = new List<GameObject>();
 
     private static SpawnablePool _instance;
 
@@ -26,7 +28,13 @@ public class SpawnablePool : MonoBehaviour
             bullet.transform.parent = transform;
             BulletList.Add(bullet);
             bullet.gameObject.SetActive(false);
+
+            Rigidbody shell = Instantiate(Shell) as Rigidbody;
+            shell.transform.parent = transform;
+            ShellList.Add(shell);
+            shell.gameObject.SetActive(false);
         }
+        
             
     }
 
@@ -45,6 +53,23 @@ public class SpawnablePool : MonoBehaviour
         bullet.transform.parent = transform;
         BulletList.Add(bullet);
         return bullet;
+    }
+
+    public Rigidbody GetShell()
+    {
+        foreach(Rigidbody shellObj in ShellList)
+        {
+            if (!shellObj.gameObject.activeInHierarchy)
+            {
+                shellObj.gameObject.SetActive(true);
+                return shellObj;
+            }
+        }
+
+        Rigidbody shell = Instantiate(Shell) as Rigidbody;
+        shell.transform.parent = transform;
+        ShellList.Add(shell);
+        return shell;
     }
 
 }

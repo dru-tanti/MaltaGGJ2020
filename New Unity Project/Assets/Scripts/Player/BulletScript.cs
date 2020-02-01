@@ -9,11 +9,16 @@ public class BulletScript : MonoBehaviour
 {
     private const string ENEMY_TAG = "Enemy";
     private float _dmg;
+    private bool lob = false;
     private SpawnablePool _spawnPool;
+
+    private Vector3 _targetPos = Vector3.zero;
+    private Rigidbody _rb;
 
     // Start is called before the first frame update
     void OnEnable()
     {
+        _rb = GetComponent<Rigidbody>();
         if(_spawnPool == null)
         {
             _spawnPool = SpawnablePool.Instance;
@@ -30,10 +35,20 @@ public class BulletScript : MonoBehaviour
         Despawn();
     }
 
+    void FixedUpdate()
+    {
+        _rb.AddForce(Physics.gravity * _rb.mass, ForceMode.Acceleration);
+        if(_rb.velocity != Vector3.zero){
+            transform.rotation = Quaternion.LookRotation(_rb.velocity);
+            transform.rotation *= Quaternion.Euler(90,0,0);
+        }
+
+    }
+
     IEnumerator<float> StartDespawn()
     {
         yield return Timing.WaitForSeconds(5);
-        Despawn();
+        //Despawn();
     }
 
     private void Despawn()
@@ -43,7 +58,6 @@ public class BulletScript : MonoBehaviour
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
-
     public void SetStats(float dmg)
     {
         _dmg = dmg;
