@@ -4,12 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Cover
   - Enemy
-<<<<<<< Updated upstream
-=======
   - Spawner
->>>>>>> Stashed changes
-  - Pickup
   layers:
   - Default
   - TransparentFX

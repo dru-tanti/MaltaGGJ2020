@@ -33,7 +33,8 @@ public class BulletScript : MonoBehaviour
     {
         if (col.gameObject.tag == ENEMY_TAG)
         {
-
+            EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
+            enemy.health -= _dmg;
         }
 
         if(ImpactEffect != null){
