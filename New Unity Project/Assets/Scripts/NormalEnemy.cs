@@ -16,6 +16,12 @@ public class NormalEnemy : EnemyBase {
         }
     }
 
+    private void Update(){
+        if(health <= 0){
+            Destroy(this.gameObject);
+        }
+    }
+
     private void OnTriggerEnter(Collider other) {
         if(other.tag == "Cover") {
             fsm.SetBool("inCover", true);

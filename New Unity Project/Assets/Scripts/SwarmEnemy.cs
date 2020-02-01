@@ -7,6 +7,10 @@ public class SwarmEnemy : EnemyBase {
     void FixedUpdate() {
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         transform.LookAt(player.transform.position); 
+
+        if(health <= 0){
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision other) {
