@@ -21,8 +21,6 @@ public class FindingCover : StateMachineBehaviour {
             animator.transform.position = Vector3.MoveTowards(animator.transform.position, targetCover.transform.position, _enemy.speed * Time.deltaTime);
             animator.transform.LookAt(targetCover.transform.position); 
         }
-
-        if(targetCover == null) this.SetBool("inCover", true);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
