@@ -5,8 +5,8 @@ using MEC;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float OFFSET_Y = 15f;
-    private const float OFFSET_Z = -4f;
+    private float OFFSET_Y = 14f;
+    private float OFFSET_Z = -3.8f;
     public Transform PlayerTorso;
     public Transform PlayerLegs;
 
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public List<Transform> Limbs = new List<Transform>();
     public Transform[] Arms = new Transform[2];
-    private float m_currentMoveSpeed = 5f;
+    private float m_currentMoveSpeed = 4f;
 
     private Camera MainCamera;
     private Vector3 _lookPoint  = Vector3.zero;
@@ -74,10 +74,25 @@ public class PlayerController : MonoBehaviour
 
             int randLimb = Random.Range(0, Limbs.Count);
             int randAttachment = Random.Range(0, Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects.Count);
-            foreach(Transform attachment in Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects){
-                attachment.gameObject.SetActive(false);
+            if(randLimb == Limbs.Count){
+                foreach(Transform attachment in Limbs[Limbs.Count].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
+
+                foreach(Transform attachment in Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
+                Limbs[Limbs.Count].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+
+                Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
             }
-            Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+            else{
+                foreach(Transform attachment in Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
+                Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+            }
+
             /*if(!Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.activeInHierarchy){
                 Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
             }*/
@@ -121,13 +136,17 @@ public class PlayerController : MonoBehaviour
         {
             _lookPoint = hit.point;
         }
+        _lookPoint.y = PlayerTorso.position.y;
+        var lookPos = _lookPoint - PlayerTorso.transform.position;
+        lookPos.y = 0;
+
         if(!_isRightClicked){
-            var lookPos = _lookPoint - PlayerTorso.transform.position;
-            lookPos.y = 0;
+
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);
             
-            PlayerTorso.transform.rotation = Quaternion.Slerp(PlayerTorso.transform.rotation, rotation, Time.deltaTime * 20);
+            //PlayerTorso.transform.rotation = Quaternion.Slerp(PlayerTorso.transform.rotation, rotation, Time.deltaTime * 20);
+            PlayerTorso.transform.LookAt(_lookPoint);
 
             Arms[0].localRotation = Quaternion.Euler(0,90,0);
             Arms[1].localRotation = Quaternion.Euler(0,90,0);
@@ -135,23 +154,23 @@ public class PlayerController : MonoBehaviour
         else{
             if (DotResult > 0)
             {   
-                Arms[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                Arms[1].LookAt(_lookPoint);
                 Arms[1].localRotation *= Quaternion.Euler(-180,-90,0);
                 //Arms[0].localRotation = Quaternion.Inverse(Arms[1].localRotation);
                 Arms[0].localRotation = Arms[1].localRotation;
                 if(angle >= 90){
-                    PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                    PlayerTorso.LookAt(_lookPoint);
                     PlayerTorso.rotation *= Quaternion.Euler(0,-89.5f,0);
                 }
             }
             else
             {
-                Arms[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                Arms[0].LookAt(_lookPoint);
                 Arms[0].localRotation *= Quaternion.Euler(0,90,0);
                 //Arms[1].localRotation = Quaternion.Inverse(Arms[0].localRotation);
                 Arms[1].localRotation = Arms[0].localRotation;
                 if(angle >= 90){
-                    PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                    PlayerTorso.LookAt(_lookPoint);
                     PlayerTorso.rotation *= Quaternion.Euler(0,89.5f,0);
                 }
                     
@@ -167,5 +186,22 @@ public class PlayerController : MonoBehaviour
         Abilities.Remove(ability);
     }
 
+    public void IncreaseRange(){
+        OFFSET_Y = 20f;
+        OFFSET_Z = -5.5f;
+    }
+
+    public void ResetRange(){
+        OFFSET_Y = 14f;
+        OFFSET_Z = -3.8f;
+    }
+
+    public void IncreaseSpeed(){
+        m_currentMoveSpeed = 7f;
+    }
+
+    public void ResetSpeed(){
+        m_currentMoveSpeed = 4f;
+    }
     public Vector3 LookPoint { get { return _lookPoint;}}
 }

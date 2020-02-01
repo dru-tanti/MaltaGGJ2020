@@ -5,7 +5,7 @@ using MEC;
 
 public class AbilityScript : MonoBehaviour
 {
-    public enum AbilityType { Shield, Dash, Shockwave};
+    public enum AbilityType { Shield, Dash, Shockwave, Range, Speed};
     public AbilityType Type;
     public float _internalWaitTime;
     public KeyCode KeyRequired;
@@ -19,19 +19,51 @@ public class AbilityScript : MonoBehaviour
     void Update(){
         if(playerController == null){
             playerController = PlayerController.Instance;
-            playerController.AddAbility(this);
+            switch (Type){
+                case AbilityType.Range:
+                    playerController.IncreaseRange();
+                    break;
+                case AbilityType.Speed:
+                    playerController.IncreaseSpeed();
+                    break;
+                default:
+                    playerController.AddAbility(this);
+                    break;
+
+            }
         }
     }
     void OnEnable(){
         if(playerController != null){
-            playerController.AddAbility(this);
-        }
+            switch (Type){
+                case AbilityType.Range:
+                    playerController.IncreaseRange();
+                    break;
+                case AbilityType.Speed:
+                    playerController.IncreaseSpeed();
+                    break;
+                default:
+                    playerController.AddAbility(this);
+                    break;
 
+            }          
+        }
     }
 
     void OnDisable(){
         if(playerController != null){
-            playerController.RemoveAbility(this);
+            switch (Type){
+                case AbilityType.Range:
+                    playerController.ResetRange();
+                    break;
+                case AbilityType.Speed:
+                    playerController.ResetSpeed();
+                    break;
+                default:
+                    playerController.RemoveAbility(this);
+                    break;
+
+            }
         }
     }
     private IEnumerator<float> InternalTimer(){

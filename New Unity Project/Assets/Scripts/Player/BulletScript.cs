@@ -11,6 +11,7 @@ public class BulletScript : MonoBehaviour
     public enum ProjectileType { Bullet, Explosive };
     public ProjectileType Type;
     public GameObject ImpactEffect;
+    public LayerMask layer;
     private const string ENEMY_TAG = "Enemy";
     private float _dmg;
     private float _lifeTime;
@@ -31,14 +32,27 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == ENEMY_TAG)
-        {
-            EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
-            enemy.health -= _dmg;
-        }
 
         if(ImpactEffect != null){
             Instantiate(ImpactEffect, transform.position, Quaternion.identity);
+        }
+
+        switch (Type){
+            case ProjectileType.Explosive:
+                Collider[] colliders = Physics.OverlapSphere(transform.position, 2, layer.value);
+
+                foreach(Collider coll in colliders){
+                    EnemyBase enemy = coll.gameObject.GetComponent<EnemyBase>();
+                    enemy.health -= _dmg;
+                }
+                break;
+            case ProjectileType.Bullet:
+                if (col.gameObject.tag == ENEMY_TAG)
+                {
+                    EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
+                    enemy.health -= _dmg;
+                }
+                break;
         }
 
         Despawn();
