@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+<<<<<<< Updated upstream
+=======
+  - Spawner
+>>>>>>> Stashed changes
   - Pickup
   layers:
   - Default
