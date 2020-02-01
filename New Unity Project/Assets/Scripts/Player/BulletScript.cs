@@ -13,6 +13,7 @@ public class BulletScript : MonoBehaviour
     public GameObject ImpactEffect;
     private const string ENEMY_TAG = "Enemy";
     private float _dmg;
+    private float _lifeTime;
     private SpawnablePool _spawnPool;
 
     private Vector3 _targetPos = Vector3.zero;
@@ -55,8 +56,8 @@ public class BulletScript : MonoBehaviour
 
     IEnumerator<float> StartDespawn()
     {
-        yield return Timing.WaitForSeconds(5);
-        //Despawn();
+        yield return Timing.WaitForSeconds(_lifeTime);
+        Despawn();
     }
 
     private void Despawn()
@@ -66,8 +67,9 @@ public class BulletScript : MonoBehaviour
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
-    public void SetStats(float dmg)
+    public void SetStats(float dmg, float lifeTime)
     {
+        _lifeTime = lifeTime;
         _dmg = dmg;
     }
 }
