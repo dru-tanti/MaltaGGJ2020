@@ -10,7 +10,6 @@ public class ShootingScript : MonoBehaviour
     public ShootType Type;
     public Rigidbody TestBullet;
     public Transform TestBarrel;
-
     public float _rateOfFire;
     public int _damage;
     public float _accuracy;
@@ -61,15 +60,18 @@ public class ShootingScript : MonoBehaviour
             case ShootType.Bullet:
                 Rigidbody proj = _spawnablePool.GetBullet();
                 proj.GetComponent<BulletScript>().SetStats(_damage);
+
                 proj.transform.position = TestBarrel.position;
                 proj.transform.rotation = TestBarrel.rotation;
                 proj.transform.rotation *= Quaternion.Euler(90, randY, 0);
+                proj.gameObject.GetComponent<TrailRenderer>().Clear();
                 proj.AddForce(proj.transform.up * 125f, ForceMode.VelocityChange);
                 break;
             case ShootType.Lobbing:
                 float dist = Vector3.Distance(transform.position, PlayerController.Instance.LookPoint);
                 Rigidbody shell = _spawnablePool.GetShell();
                 shell.GetComponent<BulletScript>().SetStats(_damage);
+
                 if(dist < 3){
                     dist = 3;
                 }
@@ -80,6 +82,7 @@ public class ShootingScript : MonoBehaviour
                 shell.transform.position = TestBarrel.position;
                 shell.transform.rotation = TestBarrel.rotation;
                 shell.transform.rotation *= Quaternion.Euler(90, randY, 0);
+                shell.gameObject.GetComponent<TrailRenderer>().Clear();
                 shell.AddForce(shell.transform.up * (dist * Random.Range(2.1f, 3.3f)), ForceMode.VelocityChange);
                 break;
         }

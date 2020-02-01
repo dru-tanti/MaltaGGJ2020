@@ -5,16 +5,20 @@ using MEC;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float OFFSET_Y = 16f;
-    private const float OFFSET_Z = -2.5f;
+    private const float OFFSET_Y = 20f;
+    private const float OFFSET_Z = -5.5f;
     public Transform PlayerTorso;
     public Transform PlayerLegs;
 
+    public Transform[] Arms = new Transform[2]
+;
     private float m_currentMoveSpeed = 3f;
 
     private Camera MainCamera;
     private Vector3 _lookPoint  = Vector3.zero;
     private Rigidbody _rb;
+
+    private bool _isRightClicked = false;
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
@@ -27,7 +31,15 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
+    void Update(){
+        if(Input.GetMouseButtonDown(1)){
+            _isRightClicked = true;
+        }
+
+        if(Input.GetMouseButtonUp(1)){
+            _isRightClicked = false;
+        }
+    }
     void FixedUpdate()
     {
         MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 5);
@@ -62,8 +74,37 @@ public class PlayerController : MonoBehaviour
         {
             _lookPoint = hit.point;
         }
+        if(!_isRightClicked){
+            PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+            Arms[0].localRotation = Quaternion.Euler(0,0,0);
+            Arms[1].localRotation = Quaternion.Euler(0,0,0);
+        }
+        else{
+            float DotResult = Vector3.Dot(PlayerTorso.right, _lookPoint);
+            float angle = Vector3.Angle(_lookPoint, PlayerTorso.forward);
+            if (DotResult > 0)
+            {
+                //Arms[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                Arms[0].localRotation = Quaternion.Euler(0, -angle, 0);
+                Arms[1].localRotation = Quaternion.Euler(0, angle, 0);
+                if(angle > 90){
+                    PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                    PlayerTorso.rotation *= Quaternion.Euler(0,-90,0);
+                }
+            }
+            else
+            {
+                //Arms[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                Arms[0].localRotation = Quaternion.Euler(0, -angle, 0);
+                Arms[1].localRotation = Quaternion.Euler(0, angle, 0);
+                if(angle > 90){
+                    PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                    PlayerTorso.rotation *= Quaternion.Euler(0,90,0);
+                }
+                    
+            }
+        }
 
-        PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
         
     }
 
