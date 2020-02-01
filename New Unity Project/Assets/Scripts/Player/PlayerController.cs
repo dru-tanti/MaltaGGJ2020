@@ -63,7 +63,10 @@ public class PlayerController : MonoBehaviour
                 attachment.gameObject.SetActive(false);
             }
 
-            Limbs[randLimb].GetChild(randAttachment).gameObject.SetActive(true);
+            if(!Limbs[randLimb].GetChild(randAttachment).gameObject.activeInHierarchy){
+                Limbs[randLimb].GetChild(randAttachment).gameObject.SetActive(true);
+            }
+
         }
     }
     void FixedUpdate()
@@ -98,7 +101,6 @@ public class PlayerController : MonoBehaviour
 
         float DotResult = Vector3.Dot(PlayerTorso.right, _lookPoint);
         float angle = Vector3.Angle(new Vector3(_lookPoint.x, 0, _lookPoint.z), PlayerTorso.forward);
-        Debug.Log(angle);
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, Mask))
         {

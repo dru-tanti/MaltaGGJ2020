@@ -18,6 +18,7 @@ public class ShootingScript : MonoBehaviour
     public float _projLifetime;
 
     public bool _autoAim;
+    public bool _shotgun;
 
     public Transform TurretPivot;
 
@@ -31,6 +32,10 @@ public class ShootingScript : MonoBehaviour
     void Start()
     {
         _spawnablePool = SpawnablePool.Instance;
+        
+    }
+
+    void OnEnable(){
         Timing.RunCoroutine(ShootCoroutine().CancelWith(gameObject));
     }
 
@@ -86,7 +91,16 @@ public class ShootingScript : MonoBehaviour
         while(true){
             while(_isShooting){
                 for(int i = -(_bullets - 1); i <= (_bullets-1); i++){
-                    ShootProjectile(i);
+                    if(_shotgun){
+                        for(int n = 0; n < 6; n++){
+                            ShootProjectile(i);
+                        }
+                    }
+                    else
+                    {
+                        ShootProjectile(i);
+                    }
+
                 }
 
                 yield return Timing.WaitForSeconds(1f / _rateOfFire);
@@ -96,6 +110,7 @@ public class ShootingScript : MonoBehaviour
     }
 
     private void ShootProjectile(int bulletNum){
+
         float randY = Random.Range(-_accuracy, _accuracy);
         GameObject effect = Instantiate(BarrelEffect, TestBarrel.transform.position, Quaternion.identity) as GameObject;
         effect.transform.rotation = TestBarrel.rotation;
