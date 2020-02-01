@@ -20,16 +20,20 @@ public class PlayerController : MonoBehaviour
     private Vector3 _lookPoint  = Vector3.zero;
     private Rigidbody _rb;
 
+    private List<AbilityScript> Abilities = new List<AbilityScript>();
     private bool _isRightClicked = false;
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
 
+
+    void Awake(){
+        _instance = this;
+    } 
     // Start is called before the first frame update
     void Start()
     {
         MainCamera = Camera.main;
-        _instance = this;
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -40,6 +44,18 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetMouseButtonUp(1)){
             _isRightClicked = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space)){
+            foreach(AbilityScript ablity in Abilities){
+                ablity.ActivateAbility(KeyCode.Space);
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.R)){
+            foreach(AbilityScript ablity in Abilities){
+                ablity.ActivateAbility(KeyCode.R);
+            }
         }
     }
 
@@ -140,9 +156,15 @@ public class PlayerController : MonoBehaviour
                 }
                     
             }
-        }
+        }   
+    }
 
-        
+    public void AddAbility(AbilityScript ability){
+        Abilities.Add(ability);
+    }
+
+    public void RemoveAbility(AbilityScript ability){
+        Abilities.Remove(ability);
     }
 
     public Vector3 LookPoint { get { return _lookPoint;}}
