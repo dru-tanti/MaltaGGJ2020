@@ -13,7 +13,6 @@ public class BulletScript : MonoBehaviour
     public GameObject ImpactEffect;
     private const string ENEMY_TAG = "Enemy";
     private float _dmg;
-    private bool lob = false;
     private SpawnablePool _spawnPool;
 
     private Vector3 _targetPos = Vector3.zero;
