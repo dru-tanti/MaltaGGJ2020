@@ -32,6 +32,12 @@ public class EnemySpawnManager : MonoBehaviour {
         InvokeRepeating("SpawnEnemyAtSpawner", 2f, spawnRate);
     }
 
+    private void Update() {
+        if(enemies.Capacity >= 0) {
+            InvokeRepeating("SpawnEnemyAtSpawner", 2f, spawnRate);
+        }
+    }
+
     private void SpawnEnemyAtSpawner() {
         if(enemies.Capacity < enemyLimit) {
             int spawnAt = Random.Range(0, spawners.Length);

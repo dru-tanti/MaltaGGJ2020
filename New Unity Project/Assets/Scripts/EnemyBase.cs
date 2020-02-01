@@ -19,6 +19,14 @@ public class EnemyBase : MonoBehaviour {
 
     protected virtual void Awake() {
         player = GameObject.FindGameObjectWithTag("Player");
+        _rb = GetComponent<Rigidbody>();
+    }
+
+    protected virtual void Update() {
+        if(health <= 0) {
+            EnemySpawnManager.current.enemies.Remove(gameObject);
+            Destroy(gameObject);
+        }
     }
 
 }
