@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class FindingCover : StateMachineBehaviour {
     private Transform playerPos;
-    private GameObject targetCover; 
-    public float speed;
+    private GameObject targetCover;
+    private EnemyBase _enemy;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        _enemy = animator.GetComponentInParent<EnemyBase>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
        // TODO: set targetCover.isTaken = true;
         targetCover = findClosestCover(animator);
-        animator.transform.position = Vector3.MoveTowards(animator.transform.position, targetCover.transform.position, speed * Time.deltaTime); 
+        animator.transform.position = Vector3.MoveTowards(animator.transform.position, targetCover.transform.position, _enemy.speed * Time.deltaTime);
+        animator.transform.LookAt(targetCover.transform.position); 
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -43,16 +45,4 @@ public class FindingCover : StateMachineBehaviour {
         Debug.Log("Cover Found " + closest);
         return closest;
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

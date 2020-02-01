@@ -5,9 +5,12 @@ using UnityEngine;
 public class ShootPlayer : StateMachineBehaviour {
     private Transform _playerPos;
     private Vector3 _playerDir;
+    private NormalEnemy _enemy;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        _enemy = animator.GetComponentInParent<NormalEnemy>();
+        _enemy.StartRoutine();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -19,7 +22,7 @@ public class ShootPlayer : StateMachineBehaviour {
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-       
+       _enemy.StopRoutine();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
