@@ -41,7 +41,6 @@ public class BulletScript : MonoBehaviour
             Instantiate(ImpactEffect, transform.position, Quaternion.identity);
         }
 
-
         Despawn();
     }
 
