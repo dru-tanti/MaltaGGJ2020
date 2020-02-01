@@ -15,6 +15,7 @@ public class EnemySpawnManager : MonoBehaviour {
     public GameObject[] spawners; // Reference for all the spawners in the scene.
     public List<GameObject> enemies = new List<GameObject>(); // Keeps a reference of all the spawned enemies currently in the scene.
     public static EnemySpawnManager current;
+    private bool sceneEmpty;
 
     private void Awake() {
         if(current == null) {
@@ -34,7 +35,11 @@ public class EnemySpawnManager : MonoBehaviour {
 
     private void Update() {
         if(enemies.Capacity >= 0) {
-            InvokeRepeating("SpawnEnemyAtSpawner", 2f, spawnRate);
+            sceneEmpty = true;
+            if(sceneEmpty) {
+                InvokeRepeating("SpawnEnemyAtSpawner", 2f, spawnRate);
+                sceneEmpty = false;
+            }
         }
     }
 
