@@ -6,7 +6,7 @@ using MEC;
 public class ShootingScript : MonoBehaviour
 {
 
-    public enum ShootType { Bullet, Lobbing, Auto, Laser, Flame};
+    public enum ShootType { Bullet, Lobbing, Laser, Flame};
     public ShootType Type;
     public Transform TestBarrel;
     public GameObject BarrelEffect;
@@ -16,6 +16,8 @@ public class ShootingScript : MonoBehaviour
     public int _bullets;
     public int _projSpeed;
     public float _projLifetime;
+
+    public bool _autoAim;
 
     public Transform TurretPivot;
 
@@ -35,7 +37,7 @@ public class ShootingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Type != ShootType.Auto){
+        if(!_autoAim){
             if(Input.GetMouseButtonDown(0)){
                 _isShooting = true;
             }
@@ -111,17 +113,6 @@ public class ShootingScript : MonoBehaviour
                 proj.transform.rotation *= Quaternion.Euler(90, randY, 0);
                 proj.gameObject.GetComponent<TrailRenderer>().Clear();
                 proj.AddForce(proj.transform.up * _projSpeed, ForceMode.VelocityChange);
-                break;
-                
-            case ShootType.Auto:
-                Rigidbody autoProj = _spawnablePool.GetBullet();
-                autoProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
-
-                autoProj.transform.position = TestBarrel.position;
-                autoProj.transform.rotation = TestBarrel.rotation;
-                autoProj.transform.rotation *= Quaternion.Euler(90, randY, 0);
-                autoProj.gameObject.GetComponent<TrailRenderer>().Clear();
-                autoProj.AddForce(autoProj.transform.up * _projSpeed, ForceMode.VelocityChange);
                 break;
                 
             case ShootType.Lobbing:

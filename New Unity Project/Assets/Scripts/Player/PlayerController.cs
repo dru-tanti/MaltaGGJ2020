@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public Transform PlayerTorso;
     public Transform PlayerLegs;
 
+    public LayerMask Mask;
+
+    public List<Transform> Limbs = new List<Transform>();
     public Transform[] Arms = new Transform[2];
     public Transform[] Shoulders = new Transform[2];
     private float m_currentMoveSpeed = 5f;
@@ -40,9 +43,32 @@ public class PlayerController : MonoBehaviour
             _isRightClicked = false;
         }
     }
+
+    void OnTriggerStay(Collider col){
+        if(col.gameObject.tag == "Pickup"){
+            Vector3 dir = transform.position - col.gameObject.transform.position;
+            dir = dir.normalized;
+            col.transform.root.transform.GetComponent<Rigidbody>().AddForce(dir * 8);
+        }
+    }
+
+    void OnCollisionEnter(Collision col){
+        if(col.gameObject.tag == "Pickup"){
+            Debug.Log("Add Attachment");
+            Destroy(col.gameObject);
+
+            int randLimb = Random.Range(0, Limbs.Count);
+            int randAttachment = Random.Range(0, Limbs[randLimb].childCount);
+            foreach(Transform attachment in Limbs[randLimb]){
+                attachment.gameObject.SetActive(false);
+            }
+
+            Limbs[randLimb].GetChild(randAttachment).gameObject.SetActive(true);
+        }
+    }
     void FixedUpdate()
     {
-        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 5);
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 3);
         Movement();
         Aim();
     }
@@ -70,7 +96,11 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit))
+        float DotResult = Vector3.Dot(PlayerTorso.right, _lookPoint);
+        float angle = Vector3.Angle(new Vector3(_lookPoint.x, 0, _lookPoint.z), PlayerTorso.forward);
+        Debug.Log(angle);
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, Mask))
         {
             _lookPoint = hit.point;
         }
@@ -88,17 +118,15 @@ public class PlayerController : MonoBehaviour
             Shoulders[1].localRotation = Quaternion.Euler(0,0,0);
         }
         else{
-            float DotResult = Vector3.Dot(PlayerTorso.right, _lookPoint);
-            float angle = Vector3.Angle(_lookPoint, PlayerTorso.forward);
             if (DotResult > 0)
-            {
+            {   
                 Arms[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                 Arms[0].localRotation = Quaternion.Inverse(Arms[1].localRotation);
                 Shoulders[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                 Shoulders[0].localRotation = Quaternion.Inverse(Shoulders[1].localRotation);
-                if(angle > 90){
+                if(angle >= 90){
                     PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                    PlayerTorso.rotation *= Quaternion.Euler(0,-90,0);
+                    PlayerTorso.rotation *= Quaternion.Euler(0,-89.5f,0);
                 }
             }
             else
@@ -107,9 +135,9 @@ public class PlayerController : MonoBehaviour
                 Arms[1].localRotation = Quaternion.Inverse(Arms[0].localRotation);
                 Shoulders[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                 Shoulders[1].localRotation = Quaternion.Inverse(Shoulders[0].localRotation);
-                if(angle > 90){
+                if(angle >= 90){
                     PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                    PlayerTorso.rotation *= Quaternion.Euler(0,90,0);
+                    PlayerTorso.rotation *= Quaternion.Euler(0,89.5f,0);
                 }
                     
             }

@@ -27,7 +27,6 @@ public class BulletScript : MonoBehaviour
         {
             _spawnPool = SpawnablePool.Instance;
         }
-        Timing.RunCoroutine(StartDespawn().CancelWith(gameObject));
     }
 
     void OnCollisionEnter(Collision col)
@@ -52,12 +51,12 @@ public class BulletScript : MonoBehaviour
             transform.rotation *= Quaternion.Euler(90,0,0);
         }
 
-    }
+        _lifeTime -= Time.deltaTime;
 
-    IEnumerator<float> StartDespawn()
-    {
-        yield return Timing.WaitForSeconds(_lifeTime);
-        Despawn();
+        if(_lifeTime <= 0){
+            Despawn();
+        }
+
     }
 
     private void Despawn()
