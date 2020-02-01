@@ -7,15 +7,10 @@ using UnityEngine;
 public class EnemyType {
     public string enemyName;
     public GameObject enemyPrefab;
-    [Range(0f, 100f)]
-    public int spawnChance;
 }
 
 public class EnemySpawner : MonoBehaviour {
     public EnemyType[] enemies;
-    [Range(0f, 10f)]
-    [Tooltip("Rate that the spawner will spawn enemies in seconds")]
-    public float spawnRate;
     
     // Spawns an enemy and adds them as a reference in the SpawnManager
     public void SpawnEnemy() {

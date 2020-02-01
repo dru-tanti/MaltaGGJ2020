@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour {
     [Range(0f, 5f)]
-    public int health;
-    [Range(0f, 5f)]
+    public float health;
+    [Range(0f, 20f)]
     public float speed;
     [Range(0f, 5f)]
     public int damage;
