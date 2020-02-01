@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Cover
   - Enemy
+  - Pickup
   - Spawner
+  - Cover
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - PlayerBullet
   - Player
+  - PlayerBullet
   - Enemy
   - 
   - 

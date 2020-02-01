@@ -5,8 +5,8 @@ using MEC;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float OFFSET_Y = 20f;
-    private const float OFFSET_Z = -7f;
+    private const float OFFSET_Y = 15f;
+    private const float OFFSET_Z = -4f;
     public Transform PlayerTorso;
     public Transform PlayerLegs;
 
@@ -58,14 +58,14 @@ public class PlayerController : MonoBehaviour
             Destroy(col.gameObject);
 
             int randLimb = Random.Range(0, Limbs.Count);
-            int randAttachment = Random.Range(0, Limbs[randLimb].childCount);
-            foreach(Transform attachment in Limbs[randLimb]){
+            int randAttachment = Random.Range(0, Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects.Count);
+            foreach(Transform attachment in Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects){
                 attachment.gameObject.SetActive(false);
             }
-
-            if(!Limbs[randLimb].GetChild(randAttachment).gameObject.activeInHierarchy){
-                Limbs[randLimb].GetChild(randAttachment).gameObject.SetActive(true);
-            }
+            Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+            /*if(!Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.activeInHierarchy){
+                Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+            }*/
 
         }
     }
@@ -114,18 +114,19 @@ public class PlayerController : MonoBehaviour
             
             PlayerTorso.transform.rotation = Quaternion.Slerp(PlayerTorso.transform.rotation, rotation, Time.deltaTime * 20);
 
-            Arms[0].localRotation = Quaternion.Euler(0,0,0);
-            Arms[1].localRotation = Quaternion.Euler(0,0,0);
-            Shoulders[0].localRotation = Quaternion.Euler(0,0,0);
-            Shoulders[1].localRotation = Quaternion.Euler(0,0,0);
+            Arms[0].localRotation = Quaternion.Euler(0,90,0);
+            Arms[1].localRotation = Quaternion.Euler(0,-90,0);
+            //Shoulders[0].localRotation = Quaternion.Euler(0,0,0);
+            //Shoulders[1].localRotation = Quaternion.Euler(0,0,0);
         }
         else{
             if (DotResult > 0)
             {   
                 Arms[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                Arms[1].localRotation *= Quaternion.Euler(0,-90,0);
                 Arms[0].localRotation = Quaternion.Inverse(Arms[1].localRotation);
-                Shoulders[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                Shoulders[0].localRotation = Quaternion.Inverse(Shoulders[1].localRotation);
+                //Shoulders[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                //Shoulders[0].localRotation = Quaternion.Inverse(Shoulders[1].localRotation);
                 if(angle >= 90){
                     PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                     PlayerTorso.rotation *= Quaternion.Euler(0,-89.5f,0);
@@ -134,9 +135,10 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Arms[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                Arms[0].localRotation *= Quaternion.Euler(0,90,0);
                 Arms[1].localRotation = Quaternion.Inverse(Arms[0].localRotation);
-                Shoulders[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                Shoulders[1].localRotation = Quaternion.Inverse(Shoulders[0].localRotation);
+                //Shoulders[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                //Shoulders[1].localRotation = Quaternion.Inverse(Shoulders[0].localRotation);
                 if(angle >= 90){
                     PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                     PlayerTorso.rotation *= Quaternion.Euler(0,89.5f,0);

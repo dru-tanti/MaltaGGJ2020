@@ -76,7 +76,6 @@ public class ShootingScript : MonoBehaviour
             _isShooting = true;
 
             var lookPos = _target.position - TurretPivot.transform.position;
-            lookPos.y = 0;
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);
             
