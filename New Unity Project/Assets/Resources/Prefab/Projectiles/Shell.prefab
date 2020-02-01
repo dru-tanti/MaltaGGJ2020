@@ -251,6 +251,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fa238fdf8dd06439fb93059ef9c91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
+  ImpactEffect: {fileID: 181341431696174585, guid: 0e8e13ed3db19754e805650cf39d2383,
+    type: 3}
 --- !u!96 &4852195424279044598
 TrailRenderer:
   serializedVersion: 2

@@ -7,6 +7,10 @@ using TMPro;
 
 public class BulletScript : MonoBehaviour
 {
+
+    public enum ProjectileType { Bullet, Explosive };
+    public ProjectileType Type;
+    public GameObject ImpactEffect;
     private const string ENEMY_TAG = "Enemy";
     private float _dmg;
     private bool lob = false;
@@ -29,9 +33,15 @@ public class BulletScript : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == ENEMY_TAG)
-            {
+        {
 
-            }
+        }
+
+        if(ImpactEffect != null){
+            Instantiate(ImpactEffect, transform.position, Quaternion.identity);
+        }
+
+
         Despawn();
     }
 

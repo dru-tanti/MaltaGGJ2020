@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     public Transform PlayerTorso;
     public Transform PlayerLegs;
 
-    public Transform[] Arms = new Transform[2]
-;
+    public Transform[] Arms = new Transform[2];
+    public Transform[] Shoulders = new Transform[2];
     private float m_currentMoveSpeed = 3f;
 
     private Camera MainCamera;
@@ -78,15 +78,18 @@ public class PlayerController : MonoBehaviour
             PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
             Arms[0].localRotation = Quaternion.Euler(0,0,0);
             Arms[1].localRotation = Quaternion.Euler(0,0,0);
+            Shoulders[0].localRotation = Quaternion.Euler(0,0,0);
+            Shoulders[1].localRotation = Quaternion.Euler(0,0,0);
         }
         else{
             float DotResult = Vector3.Dot(PlayerTorso.right, _lookPoint);
             float angle = Vector3.Angle(_lookPoint, PlayerTorso.forward);
             if (DotResult > 0)
             {
-                //Arms[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                 Arms[0].localRotation = Quaternion.Euler(0, -angle, 0);
                 Arms[1].localRotation = Quaternion.Euler(0, angle, 0);
+                Shoulders[0].localRotation = Quaternion.Euler(0, -angle, 0);
+                Shoulders[1].localRotation = Quaternion.Euler(0, angle, 0);
                 if(angle > 90){
                     PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                     PlayerTorso.rotation *= Quaternion.Euler(0,-90,0);
@@ -94,9 +97,10 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //Arms[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                 Arms[0].localRotation = Quaternion.Euler(0, -angle, 0);
                 Arms[1].localRotation = Quaternion.Euler(0, angle, 0);
+                Shoulders[0].localRotation = Quaternion.Euler(0, -angle, 0);
+                Shoulders[1].localRotation = Quaternion.Euler(0, angle, 0);
                 if(angle > 90){
                     PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
                     PlayerTorso.rotation *= Quaternion.Euler(0,90,0);
