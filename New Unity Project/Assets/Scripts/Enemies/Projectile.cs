@@ -20,12 +20,4 @@ public class Projectile : MonoBehaviour {
             Debug.Log("Player Hit!");
         }
     }
-    // void OnTriggerEnter(Collider other) {
-    //     if(other.gameObject.tag == "Projectile") return;
-    //     if (other.gameObject.tag == "Player") {
-    //         Debug.Log("Player has been dealt damage");
-    //     }
-    //     Destroy(gameObject);
-    // }
-
 }

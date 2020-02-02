@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// All enemies will inherit from this class.
 public class EnemyBase : MonoBehaviour {
     [Range(0f, 30f)]
     public float health;
