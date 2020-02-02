@@ -98,7 +98,7 @@ public class AbilityScript : MonoBehaviour
                                 coll.gameObject.GetComponent<Rigidbody>().AddForce(dir * 20, ForceMode.VelocityChange);
                             }
                         }
-
+                        Camera.main.GetComponent<StressReceiver>().InduceStress(0.4f);
                         break;
                     case AbilityType.Dash:
                         transform.root.transform.GetComponent<Rigidbody>().AddRelativeForce(PlayerController.Instance.PlayerLegs.forward * 400);
