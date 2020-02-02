@@ -25,7 +25,7 @@ public class MortarEnemy : EnemyBase
     
     private void FireMortar() {
         Instantiate(projectile, shotPoint.transform.position, Quaternion.identity);
-        Instantiate(mortar, new Vector3 (player.transform.position.x, 20f, player.transform.position.z), Quaternion.identity);
+        Instantiate(mortar, new Vector3 (player.transform.position.x, 25f, player.transform.position.z), Quaternion.identity);
     }
     
     private void OnDrawGizmos() {
