@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private float OFFSET_Z = -3.8f;
     public Transform PlayerTorso;
     public Transform PlayerLegs;
+    public Animator Anim;
 
     public LayerMask Mask;
 
@@ -135,6 +136,11 @@ public class PlayerController : MonoBehaviour
             _rb.MovePosition(_rb.position + velocity * Time.fixedDeltaTime);
 
             PlayerLegs.rotation = Quaternion.LookRotation(velocity);
+
+            Anim.SetBool("IsMoving", true);
+        }
+        else{
+            Anim.SetBool("IsMoving", false);
         }
     }
 
@@ -231,6 +237,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private IEnumerator<float> StartCharge(){
+        Anim.SetTrigger("Dash");
         _isCharging = true;
         yield return Timing.WaitForSeconds(1);
         _isCharging = false;

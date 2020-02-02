@@ -54,7 +54,7 @@ MonoBehaviour:
   _damage: 25
   _accuracy: 2
   _bullets: 1
-  _projSpeed: 125
+  _projSpeed: 100
   _projLifetime: 5
   _autoAim: 0
   _shotgun: 0
