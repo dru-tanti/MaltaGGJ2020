@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private int _shields = 0;
     private int _health = 3;
 
+    private float _internalWaitTime = 3;
+
     private Camera MainCamera;
     private Vector3 _lookPoint  = Vector3.zero;
     private Rigidbody _rb;
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private List<AbilityScript> Abilities = new List<AbilityScript>();
     private bool _isMiddleClicked = false;
     private bool _isCharging = false;
+    private bool _canDash = true;
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
@@ -43,7 +46,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
-        Debug.Log(_shields + " : " + _health);
+        if(EnemySpawnManager.Instance != null){
+            //Debug.Log(EnemySpawnManager.Instance.currentLevel);
+        }
+        //Debug.Log(_shields + " : " + _health);
         if(Input.GetMouseButtonDown(2)){
             _isMiddleClicked = true;
         }
@@ -59,8 +65,13 @@ public class PlayerController : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.R)){
-            foreach(AbilityScript ablity in Abilities){
-                ablity.ActivateAbility(KeyCode.R);
+            if(_canDash){
+                _rb.AddRelativeForce(PlayerLegs.forward * 400);
+                foreach(AbilityScript ablity in Abilities){
+                    ablity.ActivateAbility(KeyCode.R);
+                }
+                _canDash = false;
+                Timing.RunCoroutine(InternalTimer().CancelWith(gameObject));
             }
         }
     }
@@ -81,7 +92,12 @@ public class PlayerController : MonoBehaviour
             int randLimb = Random.Range(0, Limbs.Count - 1);
             int randAttachment = Random.Range(0, Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects.Count);
 
-            if(Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.activeInHierarchy){
+            GameObject selectedAttachment = Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject;
+
+            if(selectedAttachment.activeInHierarchy){
+                if(selectedAttachment.GetComponent<ShootingScript>() != null){
+                    selectedAttachment.GetComponent<ShootingScript>().ScaleStats();
+                }
                 return;
             }
             
@@ -103,7 +119,10 @@ public class PlayerController : MonoBehaviour
                     attachment.gameObject.SetActive(false);
                 }
 
-                Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+                selectedAttachment.gameObject.SetActive(true);
+                if(selectedAttachment.GetComponent<ShootingScript>() != null){
+                    selectedAttachment.GetComponent<ShootingScript>().ScaleStats();
+                }
             }
         }
 
@@ -122,6 +141,12 @@ public class PlayerController : MonoBehaviour
         MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 4);
         Movement();
         Aim();
+    }
+
+    private IEnumerator<float> InternalTimer(){
+        yield return Timing.WaitForSeconds(_internalWaitTime);
+
+        _canDash = true;
     }
 
     void Movement(){
@@ -255,6 +280,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _health--;
+        Camera.main.GetComponent<StressReceiver>().InduceStress(0.3f);
 
         if(_health <= 0){
             Destroy(gameObject);

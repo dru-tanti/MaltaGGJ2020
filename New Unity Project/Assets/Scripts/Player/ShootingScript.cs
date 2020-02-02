@@ -20,6 +20,9 @@ public class ShootingScript : MonoBehaviour
     public int _projSpeed;
     public float _projLifetime;
 
+    private float _currentRateOfFire;
+    private int _currentDamage;
+
     public bool _autoAim;
     public bool _shotgun;
 
@@ -32,6 +35,10 @@ public class ShootingScript : MonoBehaviour
     private SpawnablePool _spawnablePool;
 
     // Start is called before the first frame update
+    void Awake(){
+        _currentDamage = _damage;
+        _currentRateOfFire = _rateOfFire;
+    }
     void Start()
     {
         _spawnablePool = SpawnablePool.Instance;
@@ -112,7 +119,7 @@ public class ShootingScript : MonoBehaviour
 
                 }
 
-                yield return Timing.WaitForSeconds(1f / _rateOfFire);
+                yield return Timing.WaitForSeconds(1f / _currentRateOfFire);
             }
             yield return 0f;
         }   
@@ -130,7 +137,7 @@ public class ShootingScript : MonoBehaviour
 
             case ShootType.Bullet:
                 Rigidbody proj = _spawnablePool.GetBullet();
-                proj.GetComponent<BulletScript>().SetStats(_damage ,_projLifetime);
+                proj.GetComponent<BulletScript>().SetStats(_currentDamage ,_projLifetime);
 
                 proj.transform.position = TestBarrel.position;
                 proj.transform.rotation = TestBarrel.rotation;
@@ -142,7 +149,7 @@ public class ShootingScript : MonoBehaviour
             case ShootType.Lobbing:
                 float dist = Vector3.Distance(transform.position, PlayerController.Instance.LookPoint);
                 Rigidbody shell = _spawnablePool.GetShell();
-                shell.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                shell.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 if(dist < 3){
                     dist = 3;
@@ -159,7 +166,7 @@ public class ShootingScript : MonoBehaviour
                 break;
             case ShootType.Laser:
                 Rigidbody laserProj = _spawnablePool.GetLaser();
-                laserProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                laserProj.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 laserProj.transform.position = TestBarrel.position;
                 laserProj.transform.rotation = TestBarrel.rotation;
@@ -169,7 +176,7 @@ public class ShootingScript : MonoBehaviour
                 break;
             case ShootType.Flame:
                 Rigidbody flameProj = _spawnablePool.GetFlame();
-                flameProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                flameProj.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 flameProj.transform.position = TestBarrel.position;
                 flameProj.transform.rotation = TestBarrel.rotation;
@@ -179,7 +186,7 @@ public class ShootingScript : MonoBehaviour
                 break;
             case ShootType.Rocket:
                 Rigidbody rocketProj = _spawnablePool.GetRocket();
-                rocketProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                rocketProj.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 rocketProj.transform.position = TestBarrel.position;
                 rocketProj.transform.rotation = TestBarrel.rotation;
@@ -188,6 +195,10 @@ public class ShootingScript : MonoBehaviour
                 rocketProj.AddForce(rocketProj.transform.up * _projSpeed, ForceMode.VelocityChange);
                 break;
         }
+    }
 
+    public void ScaleStats(){
+        _currentRateOfFire = _rateOfFire * EnemySpawnManager.Instance.currentLevel + 1;
+        _currentDamage = _damage * EnemySpawnManager.Instance.currentLevel + 1;
     }
 }
