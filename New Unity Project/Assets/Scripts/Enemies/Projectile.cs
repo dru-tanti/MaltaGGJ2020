@@ -18,10 +18,12 @@ public class Projectile : MonoBehaviour {
 
     protected virtual void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Projectile") return;
-        if (other.gameObject.tag == "Player") {
+        if (other.gameObject.tag == "PlayerHitbox") {
             Debug.Log("Player has been dealt damage");
+            PlayerController.Instance.TakeDamage();
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+
     }
 
     private void OnBecameInvisible() {

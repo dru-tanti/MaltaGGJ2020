@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &789082390471745354
 Transform:
@@ -29,8 +29,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789082390471745362}
-  m_LocalRotation: {x: 0.004581345, y: 0.9454421, z: 0.013307515, w: -0.32548612}
-  m_LocalPosition: {x: 7.8669496, y: 0.013676491, z: 13.206356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 789082390959111108}
@@ -92,7 +92,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789082390471745362}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -143,6 +143,7 @@ MonoBehaviour:
   shotPoint: {fileID: 789082390959111108}
   projectile: {fileID: 8063227564465879291, guid: 4c7a2b60ab6294b4d87fb5222603151e,
     type: 3}
+  pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
   fireRate: 60
   range: 15
   mortar: {fileID: 8124001025169503352, guid: f621eb8add45ef3498677906364672aa, type: 3}

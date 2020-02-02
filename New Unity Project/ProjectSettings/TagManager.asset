@@ -10,6 +10,7 @@ TagManager:
   - Pickup
   - Cover
   - Projectile
+  - PlayerHitbox
   layers:
   - Default
   - TransparentFX

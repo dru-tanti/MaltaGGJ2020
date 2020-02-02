@@ -242,5 +242,9 @@ public class PlayerController : MonoBehaviour
         yield return Timing.WaitForSeconds(1);
         _isCharging = false;
     }
+
+    public void TakeDamage(){
+        
+    }
     public Vector3 LookPoint { get { return _lookPoint;}}
 }

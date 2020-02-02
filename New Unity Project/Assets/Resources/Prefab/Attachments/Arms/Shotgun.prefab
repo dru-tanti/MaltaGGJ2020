@@ -51,7 +51,7 @@ MonoBehaviour:
   BarrelEffect: {fileID: 4291520512129689068, guid: 1c87080464dfa964e9c592d6d9242827,
     type: 3}
   _rateOfFire: 1
-  _damage: 15
+  _damage: 3
   _accuracy: 12
   _bullets: 1
   _projSpeed: 125

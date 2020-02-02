@@ -9,6 +9,7 @@ public class EnemyBase : MonoBehaviour {
     public float speed;
     public Transform shotPoint;
     public GameObject projectile;
+    public GameObject pickup;
     protected GameObject player;
 
     protected virtual void Awake() {
@@ -20,6 +21,12 @@ public class EnemyBase : MonoBehaviour {
         if(health <= 0) {
             // Once this enenmy dies, remove it's reference from the EnemySpawnManager.
             EnemySpawnManager.current.enemies.Remove(gameObject);
+
+            int chance = Random.Range(0, 5);
+            if(chance == 1){
+                Instantiate(pickup, transform.position, Quaternion.identity);
+            }
+
             Destroy(gameObject);
         }
     }
