@@ -5,6 +5,7 @@ using MEC;
 
 public class PlayerController : MonoBehaviour
 {
+    public int health;
     private const float OFFSET_Y = 20f;
     private const float OFFSET_Z = -7f;
     public Transform PlayerTorso;
@@ -143,9 +144,12 @@ public class PlayerController : MonoBehaviour
                 }
                     
             }
-        }
+        }   
+    }
 
-        
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
     }
 
     public Vector3 LookPoint { get { return _lookPoint;}}
