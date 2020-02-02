@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 7402349864581129145}
   m_Layer: 0
   m_Name: Enemy_Mortar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -635,8 +635,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.212222, z: 1}
-  m_Center: {x: 0, y: 0.69428056, z: 0}
+  m_Size: {x: 1, y: 1.6637295, z: 1}
+  m_Center: {x: 0, y: 0.92003435, z: 0}
 --- !u!54 &7402349864581129146
 Rigidbody:
   m_ObjectHideFlags: 0
