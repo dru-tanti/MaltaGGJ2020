@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 05e4596ac68b51a4489baa0331592572, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,7 +118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020754358013362031}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.06401872, z: 1.043}
+  m_LocalPosition: {x: 0, y: 0.06401872, z: 0.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8338224518829318111}
@@ -185,7 +185,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 05e4596ac68b51a4489baa0331592572, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -246,8 +246,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5926694012632920618}
   m_LocalRotation: {x: 0.70710707, y: -0, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 0, y: 0.025, z: 0.267}
-  m_LocalScale: {x: 0.2, y: 0.72680974, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0.025, z: 0.512}
+  m_LocalScale: {x: 0.3945, y: 0.30074733, z: 0.3945}
   m_Children: []
   m_Father: {fileID: 8338224518829318111}
   m_RootOrder: 0
@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 2
+  Limb: 1
   TestBarrel: {fileID: 3904084041276020221}
   BarrelEffect: {fileID: 4291520512129689068, guid: ba4781e65bbec6249bbfa40f68da5c3a,
     type: 3}

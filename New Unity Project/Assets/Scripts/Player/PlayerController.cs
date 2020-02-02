@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rb;
 
     private List<AbilityScript> Abilities = new List<AbilityScript>();
-    private bool _isRightClicked = false;
+    private bool _isMiddleClicked = false;
     private bool _isCharging = false;
 
     private static PlayerController _instance;
@@ -40,12 +40,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
-        if(Input.GetMouseButtonDown(1)){
-            _isRightClicked = true;
+        if(Input.GetMouseButtonDown(2)){
+            _isMiddleClicked = true;
         }
 
-        if(Input.GetMouseButtonUp(1)){
-            _isRightClicked = false;
+        if(Input.GetMouseButtonUp(2)){
+            _isMiddleClicked = false;
         }
 
         if(Input.GetKeyDown(KeyCode.Space)){
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 3);
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 4);
         Movement();
         Aim();
     }
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
         var lookPos = _lookPoint - PlayerTorso.transform.position;
         lookPos.y = 0;
 
-        if(!_isRightClicked){
+        if(!_isMiddleClicked){
 
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);

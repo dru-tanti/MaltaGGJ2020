@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
+  Limb: 1
   TestBarrel: {fileID: 9041945717518574350}
   BarrelEffect: {fileID: 4291520512129689068, guid: 1ee6f937f68c4cd4d9553512a7bd3c52,
     type: 3}
@@ -150,7 +151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 05e4596ac68b51a4489baa0331592572, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

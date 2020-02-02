@@ -63,6 +63,7 @@ public class ShootingScript : MonoBehaviour
             }
 
             if(_target == null){
+                _isShooting = false;
                 return;
             }
 
@@ -73,14 +74,24 @@ public class ShootingScript : MonoBehaviour
             TurretPivot.transform.rotation = Quaternion.Slerp(TurretPivot.transform.rotation, rotation, Time.deltaTime * 20);
         }
 
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButton(0)){
             if(Limb == LimbType.Arm){
+                _isShooting = true;
+            }
+        }
+
+        if(Input.GetMouseButton(1)){
+            if(Limb == LimbType.Shoulder){
                 _isShooting = true;
             }
         }
 
         if(Input.GetMouseButtonUp(0)){
             _isShooting = false;
+         }
+
+         if(Input.GetMouseButtonUp(1)){
+             _isShooting = false;
          }
         
     }
