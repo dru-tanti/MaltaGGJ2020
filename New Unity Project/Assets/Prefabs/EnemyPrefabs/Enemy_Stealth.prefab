@@ -2142,16 +2142,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7039882757413388729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 845e0b158b0f3ce48abfec60cea6c45e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b4f63f5dee2227499884244ce69fb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 2
   speed: 5
   shotPoint: {fileID: 0}
   projectile: {fileID: 0}
-  range: 5
+  pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
+  range: 10
   lungeMultiplier: 2
-  waitTime: 3
+  waitTime: 2
 --- !u!1 &7379252075125487275
 GameObject:
   m_ObjectHideFlags: 0

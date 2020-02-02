@@ -1403,7 +1403,7 @@ GameObject:
   - component: {fileID: 2412450302995413820}
   - component: {fileID: 337569964950042587}
   m_Layer: 0
-  m_Name: Enemy_1_Animations
+  m_Name: Enemy_Heavy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1490,6 +1490,7 @@ MonoBehaviour:
   shotPoint: {fileID: 8074407377282457999}
   projectile: {fileID: 8124001025169503352, guid: ebef128d351aca547a59fb68d886a925,
     type: 3}
+  pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
   fireRate: 30
   range: 10
 --- !u!1 &8831309555518699251

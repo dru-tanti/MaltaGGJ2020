@@ -1411,6 +1411,7 @@ MonoBehaviour:
   shotPoint: {fileID: 2679905697522270897}
   projectile: {fileID: 8124001025169503352, guid: ebef128d351aca547a59fb68d886a925,
     type: 3}
+  pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
   fireRate: 30
   range: 10
 --- !u!1 &8861976982672813224

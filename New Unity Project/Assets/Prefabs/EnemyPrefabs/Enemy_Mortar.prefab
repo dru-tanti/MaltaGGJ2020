@@ -670,6 +670,7 @@ MonoBehaviour:
   shotPoint: {fileID: 1556979855852474914}
   projectile: {fileID: 181341431696174585, guid: 0e8e13ed3db19754e805650cf39d2383,
     type: 3}
+  pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
   fireRate: 60
   range: 15
   mortar: {fileID: 8124001025169503352, guid: f621eb8add45ef3498677906364672aa, type: 3}

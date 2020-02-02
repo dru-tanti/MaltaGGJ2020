@@ -1483,7 +1483,7 @@ GameObject:
   - component: {fileID: 5648644122560512955}
   - component: {fileID: 5648644122560512954}
   m_Layer: 0
-  m_Name: Enemy_3_Animations
+  m_Name: Enemy_Swarm
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1561,13 +1561,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4415197728482717104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f22090aabb8ea65429574c2ba070238f, type: 3}
+  m_Script: {fileID: 11500000, guid: f2eb9e6e2ee02c247acb8802437bf7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 4
+  health: 2
   speed: 5
   shotPoint: {fileID: 0}
   projectile: {fileID: 0}
+  pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
 --- !u!1 &4749840118802125838
 GameObject:
   m_ObjectHideFlags: 0
