@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class NormalEnemy : EnemyBase {
     private IEnumerator shoot;
+    private GameObject[] possibleCover;
+    private bool coverAvailable;
     protected override void Awake() {
         base.Awake(); 
         fsm = GetComponent<Animator>();
         shoot = Shoot();
     }
     private void Start() {
-        
-        if(player) {
-            fsm.SetBool("playerInRange", true);
-        }
+        if(player) fsm.SetBool("playerInRange", true);
+        possibleCover = GameObject.FindGameObjectsWithTag("Cover");
+        // if(possibleCover != null) {
+        //     foreach(GameObject cover in possibleCover) {
+        //         if(cover.GetComponent<Cover>().isAvailable == true) {
+        //             fsm.SetBool("coverAvailable", true);
+        //             cover.GetComponent<Cover>().isAvailable = false;
+        //         }
+        //     }
+        // }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -27,6 +35,7 @@ public class NormalEnemy : EnemyBase {
             fsm.SetBool("inCover", false);
         }
     }
+
     public IEnumerator Shoot() {
         Instantiate(projectile, shotPoint.transform.position, transform.rotation);
         yield return new WaitForSeconds(2f);

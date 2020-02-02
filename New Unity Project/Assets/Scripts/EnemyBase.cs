@@ -20,6 +20,7 @@ public class EnemyBase : MonoBehaviour {
     protected virtual void Awake() {
         player = GameObject.FindGameObjectWithTag("Player");
         _rb = GetComponent<Rigidbody>();
+        health = health + EnemySpawnManager.current.levels[EnemySpawnManager.current.currentLevel].difficulty;
     }
 
     protected virtual void Update() {

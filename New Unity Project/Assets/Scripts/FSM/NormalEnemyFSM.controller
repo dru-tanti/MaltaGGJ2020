@@ -125,10 +125,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: inCover
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: playerInRange
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: coverAvailable
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4331718816523625815}
@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2823b65b7258b347ab39e904e7069cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
 --- !u!1107 &-167681339299297318
 AnimatorStateMachine:
   serializedVersion: 5
@@ -199,13 +198,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: playerInRange
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: coverAvailable
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -288,6 +293,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: inCover
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: coverAvailable
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2062054994799127468}

@@ -10,14 +10,19 @@ public class EnemySpawnManager : MonoBehaviour {
     [Range(0f, 10f)]
     public float spawnRate;
     [Tooltip("Set the rate of enemy spawns in seconds")]
+    public int currentLevel = 0;
+
+    private int enemiesSpawned;
 
     [Header("Reference Variables")]
+    public LevelSettings[] levels;
     public GameObject[] spawners; // Reference for all the spawners in the scene.
     public List<GameObject> enemies = new List<GameObject>(); // Keeps a reference of all the spawned enemies currently in the scene.
     public static EnemySpawnManager current;
     private bool sceneEmpty;
-
+    private IEnumerator spawnEnemy;
     private void Awake() {
+        enemyLimit = levels[currentLevel].maxEnemies;
         if(current == null) {
             current = this;
             DontDestroyOnLoad(gameObject);
@@ -30,24 +35,34 @@ public class EnemySpawnManager : MonoBehaviour {
     private void Start() {
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         SetSpawners(spawners, 1);
-        InvokeRepeating("SpawnEnemyAtSpawner", 2f, spawnRate);
+        spawnEnemy = SpawnEnemyAtSpawner();
     }
 
     private void Update() {
-        if(enemies.Capacity >= 0) {
-            sceneEmpty = true;
-            if(sceneEmpty) {
-                InvokeRepeating("SpawnEnemyAtSpawner", 2f, spawnRate);
-                sceneEmpty = false;
-            }
+        if(Input.GetKeyDown("space")) {
+            Debug.Log("Stopping");
+            StopCoroutine(spawnEnemy);
+        }
+        if(enemiesSpawned >= this.levels[currentLevel].maxEnemies) {
+            StopCoroutine(spawnEnemy);
+        }
+
+        if(enemies.Count == 0) {
+            currentLevel++;
+            enemiesSpawned = 0;
+            StartCoroutine(spawnEnemy);
         }
     }
 
-    private void SpawnEnemyAtSpawner() {
-        if(enemies.Capacity < enemyLimit) {
+    private IEnumerator SpawnEnemyAtSpawner() {
+        if(enemies.Count < levels[currentLevel].maxEnemies) {
+            enemiesSpawned++;
             int spawnAt = Random.Range(0, spawners.Length);
-            spawners[spawnAt].GetComponent<EnemySpawner>().SpawnEnemy();
+            spawners[spawnAt].GetComponent<SpawnPoint>().SpawnEnemy();
         }
+
+        yield return new WaitForSeconds(spawnRate);
+        StartCoroutine(SpawnEnemyAtSpawner());
     }
 
     // Sets the number of active spawners depending on the difficulty of the current wave.
