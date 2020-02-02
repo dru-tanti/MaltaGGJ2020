@@ -25,7 +25,6 @@ public class Mortar : Projectile {
 
     protected void Update() {
         timer += Time.deltaTime;
-        Debug.Log(transform.GetChild(3));
         if(!_dropping) transform.GetChild(3).localScale = Vector3.Lerp(new Vector3(0f, 0f, 0f), new Vector3(2f, 2f, 2f), timer / timeToDrop);
         if(_dropping) {
             _bulletRB.velocity = transform.TransformDirection(Vector3.down) * speed;

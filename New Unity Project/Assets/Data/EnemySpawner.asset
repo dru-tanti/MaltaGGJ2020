@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: EnemySpawner
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 7899586992805214712, guid: 675cdd2cf24de1448a9f2074c7e513e1, type: 3}
-  - {fileID: 5772926986206091933, guid: 1cd94a715b88fa84c82dc3431e7b7fda, type: 3}
+  - {fileID: 6615832554437382141, guid: 424cea4d928f8604aa0bbeaa9b57adc1, type: 3}
+  - {fileID: 4662818818873487423, guid: eb47598069d50624884742e5e43e7c6e, type: 3}
   - {fileID: 9027127746050261451, guid: 9d7b17780ab671549818a30f26c2aaff, type: 3}
-  - {fileID: 5772926986206091933, guid: 634bc276b3bff744e84346d2cf45257f, type: 3}
-  - {fileID: 5772926986206091933, guid: fcc7063787294cf4297f4e63a11fab92, type: 3}
-  - {fileID: 789082390471745362, guid: 75ec37f15eb5630459b9117e00b06b16, type: 3}
+  - {fileID: 7899586992805214712, guid: 675cdd2cf24de1448a9f2074c7e513e1, type: 3}
+  - {fileID: 3177510965373316268, guid: 3d57469e99eba1a4991b05520de43737, type: 3}
+  - {fileID: 7402349864581129144, guid: 040427088f8d9044a85adf3bafebb735, type: 3}
