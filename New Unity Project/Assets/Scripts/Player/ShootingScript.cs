@@ -6,8 +6,11 @@ using MEC;
 public class ShootingScript : MonoBehaviour
 {
 
-    public enum ShootType { Bullet, Lobbing, Laser, Flame, Rocket};
+    public enum ShootType { Bullet, Lobbing, Laser, Flame, Rocket };
     public ShootType Type;
+
+    public enum LimbType { Arm, Shoulder };
+    public LimbType Limb;
     public Transform TestBarrel;
     public GameObject BarrelEffect;
     public float _rateOfFire;
@@ -42,16 +45,7 @@ public class ShootingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!_autoAim){
-            if(Input.GetMouseButtonDown(0)){
-                _isShooting = true;
-            }
-
-            if(Input.GetMouseButtonUp(0)){
-                _isShooting = false;
-            }
-        }
-        else{
+        if(_autoAim){
             Collider[] colliders = Physics.OverlapSphere(transform.position, 15, layer.value);
 
             if(colliders.Length == 0){
@@ -69,21 +63,26 @@ public class ShootingScript : MonoBehaviour
             }
 
             if(_target == null){
-                _isShooting = false;
                 return;
             }
-
-            _isShooting = true;
 
             var lookPos = _target.position - TurretPivot.transform.position;
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);
             
             TurretPivot.transform.rotation = Quaternion.Slerp(TurretPivot.transform.rotation, rotation, Time.deltaTime * 20);
-            
         }
-        
 
+        if(Input.GetMouseButtonDown(0)){
+            if(Limb == LimbType.Arm){
+                _isShooting = true;
+            }
+        }
+
+        if(Input.GetMouseButtonUp(0)){
+            _isShooting = false;
+         }
+        
     }
 
     private IEnumerator<float> ShootCoroutine(){
