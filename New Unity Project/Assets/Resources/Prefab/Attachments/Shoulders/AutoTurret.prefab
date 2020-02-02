@@ -358,15 +358,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c5fe6c31ff76d4085f5ef7ac14ce30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 2
   TestBarrel: {fileID: 3904084041276020221}
-  BarrelEffect: {fileID: 4291520512129689068, guid: 1c87080464dfa964e9c592d6d9242827,
+  BarrelEffect: {fileID: 4291520512129689068, guid: ba4781e65bbec6249bbfa40f68da5c3a,
     type: 3}
-  _rateOfFire: 4
+  _rateOfFire: 2
   _damage: 20
   _accuracy: 3
   _bullets: 1
-  _projSpeed: 125
+  _projSpeed: 150
   _projLifetime: 5
   _autoAim: 1
   _shotgun: 0
