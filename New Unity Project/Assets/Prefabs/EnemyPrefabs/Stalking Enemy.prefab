@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7899586992349175150}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 7899586992805214692}
   - component: {fileID: 7899586992805214715}
   - component: {fileID: 4667378551458273492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stalking Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -165,13 +165,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7899586992805214712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 845e0b158b0f3ce48abfec60cea6c45e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b4f63f5dee2227499884244ce69fb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
-  speed: 3
-  shotPoint: {fileID: 0}
-  projectile: {fileID: 0}
-  range: 10
+  health: 20
+  speed: 2
+  shotPoint: {fileID: 7899586992349175150}
+  projectile: {fileID: 8063227564465879291, guid: 4c7a2b60ab6294b4d87fb5222603151e,
+    type: 3}
+  range: 5
   lungeMultiplier: 2
-  waitTime: 2
+  waitTime: 1

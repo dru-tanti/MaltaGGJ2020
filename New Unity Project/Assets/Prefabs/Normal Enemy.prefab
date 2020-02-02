@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4268202111812327910}
   - component: {fileID: 4268202111812327916}
   - component: {fileID: 4268202111812327906}
-  - component: {fileID: 4268202111812327917}
+  - component: {fileID: 1356877550526118406}
   m_Layer: 10
   m_Name: Normal Enemy
   m_TagString: Enemy
@@ -176,7 +176,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4268202111812327917
+--- !u!114 &1356877550526118406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,12 +185,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4268202111812327908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d11219a4a2e55eb46aeaa24837f99fa3, type: 3}
+  m_Script: {fileID: 11500000, guid: d3041ffa58bc6ed41b5538f5e4321f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  speed: 3
-  damage: 2
+  health: 20
+  speed: 1
   shotPoint: {fileID: 188622160}
   projectile: {fileID: 8063227564465879291, guid: 4c7a2b60ab6294b4d87fb5222603151e,
     type: 3}
+  fireRate: 60
+  range: 30

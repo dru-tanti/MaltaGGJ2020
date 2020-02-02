@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 789082390471745358}
   - component: {fileID: 789082390471745361}
   - component: {fileID: 7292401084770250480}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mortar Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 789082390959111108}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}

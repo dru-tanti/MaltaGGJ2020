@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5772926985586294283}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 5772926986206091905}
   - component: {fileID: 5772926986206091934}
   - component: {fileID: 5772926986206091932}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Normal Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -168,10 +168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3041ffa58bc6ed41b5538f5e4321f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 20
   speed: 3
   shotPoint: {fileID: 5772926985586294283}
   projectile: {fileID: 8063227564465879291, guid: 4c7a2b60ab6294b4d87fb5222603151e,
     type: 3}
   fireRate: 120
-  range: 8
+  range: 30

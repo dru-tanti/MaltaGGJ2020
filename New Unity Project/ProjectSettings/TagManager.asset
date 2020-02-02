@@ -9,6 +9,7 @@ TagManager:
   - Spawner
   - Pickup
   - Cover
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Player
   - PlayerBullet
   - Enemy
-  - 
+  - EnemyBullet
   - 
   - 
   - 

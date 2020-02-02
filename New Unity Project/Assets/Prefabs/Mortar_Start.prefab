@@ -104,11 +104,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8063227564465879291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c91d1bfcce3df41a557b90c6b69c73, type: 3}
+  m_Script: {fileID: 11500000, guid: 00de2a15d466bc24d87d446c85a3237c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  lifetime: 4
+  lifetime: 2
   Mortar: 1
 --- !u!54 &9145051326413774440
 Rigidbody:

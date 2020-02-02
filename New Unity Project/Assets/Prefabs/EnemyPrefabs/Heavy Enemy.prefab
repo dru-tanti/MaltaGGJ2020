@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5772926985586294283}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 5772926986206091905}
   - component: {fileID: 5772926986206091934}
   - component: {fileID: 5772926986206091932}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Heavy Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
