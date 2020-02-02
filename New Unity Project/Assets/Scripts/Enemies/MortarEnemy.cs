@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MortarEnemy : EnemyBase
-{
+public class MortarEnemy : EnemyBase {
     [Tooltip("Firerate in rounds per minute")]
     public float fireRate = 60f;
     public float range = 15f;
@@ -15,12 +14,10 @@ public class MortarEnemy : EnemyBase
     // Update is called once per frame
     void FixedUpdate() {
         transform.LookAt(player.transform.position); 
-        if(Vector3.Distance(transform.position, player.transform.position) >= range / 2){
+        if(Vector3.Distance(transform.position, player.transform.position) >= range){
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
-        if(Vector3.Distance(transform.position, player.transform.position) >= range ) {
-            // FireMortar();
-        } 
+
     }
     
     private void FireMortar() {
