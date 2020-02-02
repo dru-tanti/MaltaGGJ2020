@@ -26,6 +26,9 @@ public class AbilityScript : MonoBehaviour
                 case AbilityType.Speed:
                     playerController.IncreaseSpeed();
                     break;
+                case AbilityType.Shield:
+                    playerController.GainShield();
+                    break;
                 default:
                     playerController.AddAbility(this);
                     break;
@@ -41,6 +44,9 @@ public class AbilityScript : MonoBehaviour
                     break;
                 case AbilityType.Speed:
                     playerController.IncreaseSpeed();
+                    break;
+                case AbilityType.Shield:
+                    playerController.GainShield();
                     break;
                 default:
                     playerController.AddAbility(this);
@@ -58,6 +64,9 @@ public class AbilityScript : MonoBehaviour
                     break;
                 case AbilityType.Speed:
                     playerController.ResetSpeed();
+                    break;
+                case AbilityType.Shield:
+                    playerController.RemoveShield();
                     break;
                 default:
                     playerController.RemoveAbility(this);

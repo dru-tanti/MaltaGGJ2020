@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public List<Transform> Limbs = new List<Transform>();
     public Transform[] Arms = new Transform[2];
     private float m_currentMoveSpeed = 4f;
+    private int _shields = 0;
 
     private Camera MainCamera;
     private Vector3 _lookPoint  = Vector3.zero;
@@ -72,30 +73,35 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Add Attachment");
             Destroy(col.gameObject);
 
-            int randLimb = Random.Range(0, Limbs.Count);
+            int randLimb = Random.Range(0, Limbs.Count - 1);
             int randAttachment = Random.Range(0, Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects.Count);
-            if(randLimb == Limbs.Count){
-                foreach(Transform attachment in Limbs[Limbs.Count].GetComponent<Attachments>().AttachmentObjects){
-                    attachment.gameObject.SetActive(false);
-                }
 
+            if(Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.activeInHierarchy){
+                return;
+            }
+            
+            if(randLimb == (Limbs.Count - 2)){
                 foreach(Transform attachment in Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects){
                     attachment.gameObject.SetActive(false);
                 }
-                Limbs[Limbs.Count].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+
+                foreach(Transform attachment in Limbs[Limbs.Count - 2].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
 
                 Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+
+                Limbs[Limbs.Count - 2].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
             }
             else{
                 foreach(Transform attachment in Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects){
                     attachment.gameObject.SetActive(false);
                 }
+
                 Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
             }
 
-            /*if(!Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.activeInHierarchy){
-                Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
-            }*/
+
 
         }
     }
@@ -202,6 +208,14 @@ public class PlayerController : MonoBehaviour
 
     public void ResetSpeed(){
         m_currentMoveSpeed = 4f;
+    }
+
+    public void GainShield(){
+        _shields++;
+    }
+
+    public void RemoveShield(){
+        _shields--;
     }
     public Vector3 LookPoint { get { return _lookPoint;}}
 }

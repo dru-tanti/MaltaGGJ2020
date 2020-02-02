@@ -45,6 +45,9 @@ public class BulletScript : MonoBehaviour
                     EnemyBase enemy = coll.gameObject.GetComponent<EnemyBase>();
                     enemy.health -= _dmg;
                 }
+                float stress = 2 / Vector3.Distance(PlayerController.Instance.transform.position, transform.position);
+                stress = Mathf.Clamp(stress, 0, 0.4f);
+                Camera.main.GetComponent<StressReceiver>().InduceStress(stress);
                 break;
             case ProjectileType.Bullet:
                 if (col.gameObject.tag == ENEMY_TAG)
