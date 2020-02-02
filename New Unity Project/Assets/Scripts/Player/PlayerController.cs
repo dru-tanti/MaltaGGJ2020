@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MEC;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public Transform[] Arms = new Transform[2];
     private float m_currentMoveSpeed = 4f;
     private int _shields = 0;
+    private int _health = 3;
 
     private Camera MainCamera;
     private Vector3 _lookPoint  = Vector3.zero;
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
+        Debug.Log(_shields + " : " + _health);
         if(Input.GetMouseButtonDown(2)){
             _isMiddleClicked = true;
         }
@@ -244,7 +247,18 @@ public class PlayerController : MonoBehaviour
     }
 
     public void TakeDamage(){
-        
+        if(_shields > 0){
+            _shields--;
+            GameObject shieldObj = Abilities.FirstOrDefault(x => x.Type == AbilityScript.AbilityType.Shield).gameObject;
+            shieldObj.SetActive(false);
+            return;
+        }
+
+        _health--;
+
+        if(_health <= 0){
+            Destroy(gameObject);
+        }
     }
     public Vector3 LookPoint { get { return _lookPoint;}}
 }

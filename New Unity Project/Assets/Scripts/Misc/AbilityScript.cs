@@ -28,6 +28,7 @@ public class AbilityScript : MonoBehaviour
                     break;
                 case AbilityType.Shield:
                     playerController.GainShield();
+                    playerController.AddAbility(this);
                     break;
                 default:
                     playerController.AddAbility(this);
@@ -47,6 +48,7 @@ public class AbilityScript : MonoBehaviour
                     break;
                 case AbilityType.Shield:
                     playerController.GainShield();
+                    playerController.AddAbility(this);
                     break;
                 default:
                     playerController.AddAbility(this);
@@ -67,6 +69,7 @@ public class AbilityScript : MonoBehaviour
                     break;
                 case AbilityType.Shield:
                     playerController.RemoveShield();
+                    playerController.RemoveAbility(this);
                     break;
                 default:
                     playerController.RemoveAbility(this);
