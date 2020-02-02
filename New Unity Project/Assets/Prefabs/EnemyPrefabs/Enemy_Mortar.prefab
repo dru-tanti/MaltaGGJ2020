@@ -668,7 +668,7 @@ MonoBehaviour:
   health: 5
   speed: 7
   shotPoint: {fileID: 1556979855852474914}
-  projectile: {fileID: 8124001025169503352, guid: f621eb8add45ef3498677906364672aa,
+  projectile: {fileID: 181341431696174585, guid: 0e8e13ed3db19754e805650cf39d2383,
     type: 3}
   fireRate: 60
   range: 15
