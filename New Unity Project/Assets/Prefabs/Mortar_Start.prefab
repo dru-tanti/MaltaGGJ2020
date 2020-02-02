@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4278881861395729346}
   - component: {fileID: 9145051326413774440}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: Mortar_Start
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   lifetime: 4
-  Mortar: 0
+  Mortar: 1
 --- !u!54 &9145051326413774440
 Rigidbody:
   m_ObjectHideFlags: 0
