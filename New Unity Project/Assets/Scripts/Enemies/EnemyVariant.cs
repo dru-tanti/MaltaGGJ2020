@@ -13,7 +13,7 @@ public class EnemyVariant : EnemyBase {
     // Update is called once per frame
     void FixedUpdate() {
         transform.LookAt(player.transform.position); 
-        if(Vector3.Distance(transform.position, player.transform.position) <= range){
+        if(Vector3.Distance(transform.position, player.transform.position) >= range){
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
     }

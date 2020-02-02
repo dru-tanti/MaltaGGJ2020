@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour {
+    public static EnemySpawnManager current;
 
     [Header("Spawning Variables")]
     [Range(0, 20)]
     public int enemyLimit; // Determins the maximum number of enemies that can be spawned
-    [Range(0f, 10f)]
-    public float spawnRate;
     [Tooltip("Set the rate of enemy spawns in seconds")]
-    public int currentLevel = 0;
-
-    private int enemiesSpawned;
+    [Range(0f, 10f)]
+    public float spawnRate; // Rate the enenemies spawn in seconds
+    [Header("Level Settings")]
+    [HideInInspector] public int currentLevel = 0;
+    public LevelSettings[] levels;
 
     [Header("Reference Variables")]
-    public LevelSettings[] levels;
-    public GameObject[] spawners; // Reference for all the spawners in the scene.
-    public List<GameObject> enemies = new List<GameObject>(); // Keeps a reference of all the spawned enemies currently in the scene.
-    public static EnemySpawnManager current;
-    private bool sceneEmpty;
-    private IEnumerator spawnEnemy;
+    [HideInInspector] public GameObject[] spawners; // Reference for all the spawners in the scene.
+    [HideInInspector] public List<GameObject> enemies = new List<GameObject>(); // Keeps a reference of all the spawned enemies currently in the scene.
+    private int enemiesSpawned;
+    private bool spawnEnemy; // To determine whether enemies should be spawned in the scene.
     private void Awake() {
         enemyLimit = levels[currentLevel].maxEnemies;
         if(current == null) {
@@ -35,33 +34,42 @@ public class EnemySpawnManager : MonoBehaviour {
     private void Start() {
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         SetSpawners(spawners, 1);
-        spawnEnemy = SpawnEnemyAtSpawner();
+        spawnEnemy = true;
+        StartCoroutine(SpawnEnemyAtSpawner());
     }
 
     private void Update() {
-        if(Input.GetKeyDown("space")) {
-            Debug.Log("Stopping");
-            StopCoroutine(spawnEnemy);
-        }
+        // If the total number of enemies spawned is greater than what we set in the maximum, then stop the spawning.
         if(enemiesSpawned >= this.levels[currentLevel].maxEnemies) {
-            StopCoroutine(spawnEnemy);
+            spawnEnemy = false;
         }
 
         if(enemies.Count == 0) {
-            currentLevel++;
-            enemiesSpawned = 0;
-            StartCoroutine(spawnEnemy);
+            AdvanceLevel();
         }
     }
 
+    // Chooses a random spawner and spawns an enemy at the rate we provide.
     private IEnumerator SpawnEnemyAtSpawner() {
-        if(enemies.Count < levels[currentLevel].maxEnemies) {
-            enemiesSpawned++;
-            int spawnAt = Random.Range(0, spawners.Length);
-            spawners[spawnAt].GetComponent<SpawnPoint>().SpawnEnemy();
-        }
+        while(spawnEnemy == true) {
+            if(enemies.Count < levels[currentLevel].maxEnemies) {
+                enemiesSpawned++;
+                int spawnAt = Random.Range(0, spawners.Length);
+                spawners[spawnAt].GetComponent<SpawnPoint>().SpawnEnemy();
+            }
 
-        yield return new WaitForSeconds(spawnRate);
+            yield return new WaitForSeconds(spawnRate);
+            StartCoroutine(SpawnEnemyAtSpawner());
+        }
+    }
+
+    // Advance the level, and reset the spawning data.
+    void AdvanceLevel() {
+        currentLevel++;
+        enemiesSpawned = 0;
+        spawnEnemy = true;
+        DisableAllSpawners(spawners);
+        SetSpawners(spawners, levels[currentLevel].difficulty);
         StartCoroutine(SpawnEnemyAtSpawner());
     }
 
