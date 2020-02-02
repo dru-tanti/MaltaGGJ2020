@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8824527672992107282}
   - component: {fileID: 1006589097598978139}
   - component: {fileID: 4555123297646019694}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,9 +106,9 @@ GameObject:
   - component: {fileID: -679306718382864352}
   - component: {fileID: -9020051165236210547}
   - component: {fileID: 358128473216201098}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Laser
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &-9020051165236210547
 MonoBehaviour:
   m_ObjectHideFlags: 0

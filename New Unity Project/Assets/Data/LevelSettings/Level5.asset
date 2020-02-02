@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e38ffe55c66b644a5ae923cb1787e5, type: 3}
   m_Name: Level5
   m_EditorClassIdentifier: 
-  level: 0
+  level: 5
   difficulty: 2
   maxEnemies: 25

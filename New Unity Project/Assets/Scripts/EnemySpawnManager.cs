@@ -20,7 +20,11 @@ public class EnemySpawnManager : MonoBehaviour {
     [HideInInspector] public List<GameObject> enemies = new List<GameObject>(); // Keeps a reference of all the spawned enemies currently in the scene.
     private int enemiesSpawned;
     private bool spawnEnemy; // To determine whether enemies should be spawned in the scene.
+
+    private static EnemySpawnManager _instance;
+    public static EnemySpawnManager Instance {get{return _instance;}}
     private void Awake() {
+        _instance = this;
         enemyLimit = levels[currentLevel].maxEnemies;
         if(current == null) {
             current = this;
@@ -35,6 +39,7 @@ public class EnemySpawnManager : MonoBehaviour {
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         SetSpawners(spawners, 1);
         spawnEnemy = true;
+        Debug.Log(currentLevel+ " : " + levels[currentLevel].maxEnemies);
         StartCoroutine(SpawnEnemyAtSpawner());
     }
 
@@ -71,6 +76,7 @@ public class EnemySpawnManager : MonoBehaviour {
         DisableAllSpawners(spawners);
         SetSpawners(spawners, levels[currentLevel].difficulty);
         StartCoroutine(SpawnEnemyAtSpawner());
+        Debug.Log(currentLevel + " : " + levels[currentLevel].maxEnemies);
     }
 
     // Sets the number of active spawners depending on the difficulty of the current wave.

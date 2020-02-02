@@ -8,7 +8,9 @@ TagManager:
   - Enemy
   - Spawner
   - Pickup
+  - Cover
   - Projectile
+  - PlayerHitbox
   layers:
   - Default
   - TransparentFX
@@ -18,10 +20,10 @@ TagManager:
   - UI
   - 
   - 
-  - PlayerBullet
   - Player
+  - PlayerBullet
   - Enemy
-  - 
+  - EnemyBullet
   - 
   - 
   - 

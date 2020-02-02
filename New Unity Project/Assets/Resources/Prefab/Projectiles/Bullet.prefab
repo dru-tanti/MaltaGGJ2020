@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8824527672992107282}
   - component: {fileID: 1006589097598978139}
   - component: {fileID: 4555123297646019694}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5581752208440111917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.15, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.3, z: 0.2}
   m_Children: []
   m_Father: {fileID: 3325843890844868941}
   m_RootOrder: 0
@@ -106,9 +106,9 @@ GameObject:
   - component: {fileID: -679306718382864352}
   - component: {fileID: -9020051165236210547}
   - component: {fileID: 358128473216201098}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &-9020051165236210547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +158,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   ImpactEffect: {fileID: 0}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!96 &358128473216201098
 TrailRenderer:
   serializedVersion: 2
@@ -201,7 +204,7 @@ TrailRenderer:
   m_Time: 0.02
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:

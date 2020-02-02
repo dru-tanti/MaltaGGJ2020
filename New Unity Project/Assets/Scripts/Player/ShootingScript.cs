@@ -6,8 +6,11 @@ using MEC;
 public class ShootingScript : MonoBehaviour
 {
 
-    public enum ShootType { Bullet, Lobbing, Laser, Flame};
+    public enum ShootType { Bullet, Lobbing, Laser, Flame, Rocket };
     public ShootType Type;
+
+    public enum LimbType { Arm, Shoulder };
+    public LimbType Limb;
     public Transform TestBarrel;
     public GameObject BarrelEffect;
     public float _rateOfFire;
@@ -16,6 +19,9 @@ public class ShootingScript : MonoBehaviour
     public int _bullets;
     public int _projSpeed;
     public float _projLifetime;
+
+    private float _currentRateOfFire;
+    private int _currentDamage;
 
     public bool _autoAim;
     public bool _shotgun;
@@ -29,6 +35,10 @@ public class ShootingScript : MonoBehaviour
     private SpawnablePool _spawnablePool;
 
     // Start is called before the first frame update
+    void Awake(){
+        _currentDamage = _damage;
+        _currentRateOfFire = _rateOfFire;
+    }
     void Start()
     {
         _spawnablePool = SpawnablePool.Instance;
@@ -42,16 +52,7 @@ public class ShootingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!_autoAim){
-            if(Input.GetMouseButtonDown(0)){
-                _isShooting = true;
-            }
-
-            if(Input.GetMouseButtonUp(0)){
-                _isShooting = false;
-            }
-        }
-        else{
+        if(_autoAim){
             Collider[] colliders = Physics.OverlapSphere(transform.position, 15, layer.value);
 
             if(colliders.Length == 0){
@@ -73,18 +74,33 @@ public class ShootingScript : MonoBehaviour
                 return;
             }
 
-            _isShooting = true;
-
             var lookPos = _target.position - TurretPivot.transform.position;
-            lookPos.y = 0;
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);
             
             TurretPivot.transform.rotation = Quaternion.Slerp(TurretPivot.transform.rotation, rotation, Time.deltaTime * 20);
-            
         }
-        
 
+        if(Input.GetMouseButton(0)){
+            if(Limb == LimbType.Arm){
+                _isShooting = true;
+            }
+        }
+
+        if(Input.GetMouseButton(1)){
+            if(Limb == LimbType.Shoulder){
+                _isShooting = true;
+            }
+        }
+
+        if(Input.GetMouseButtonUp(0)){
+            _isShooting = false;
+         }
+
+         if(Input.GetMouseButtonUp(1)){
+             _isShooting = false;
+         }
+        
     }
 
     private IEnumerator<float> ShootCoroutine(){
@@ -103,7 +119,7 @@ public class ShootingScript : MonoBehaviour
 
                 }
 
-                yield return Timing.WaitForSeconds(1f / _rateOfFire);
+                yield return Timing.WaitForSeconds(1f / _currentRateOfFire);
             }
             yield return 0f;
         }   
@@ -121,7 +137,7 @@ public class ShootingScript : MonoBehaviour
 
             case ShootType.Bullet:
                 Rigidbody proj = _spawnablePool.GetBullet();
-                proj.GetComponent<BulletScript>().SetStats(_damage ,_projLifetime);
+                proj.GetComponent<BulletScript>().SetStats(_currentDamage ,_projLifetime);
 
                 proj.transform.position = TestBarrel.position;
                 proj.transform.rotation = TestBarrel.rotation;
@@ -133,7 +149,7 @@ public class ShootingScript : MonoBehaviour
             case ShootType.Lobbing:
                 float dist = Vector3.Distance(transform.position, PlayerController.Instance.LookPoint);
                 Rigidbody shell = _spawnablePool.GetShell();
-                shell.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                shell.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 if(dist < 3){
                     dist = 3;
@@ -150,7 +166,7 @@ public class ShootingScript : MonoBehaviour
                 break;
             case ShootType.Laser:
                 Rigidbody laserProj = _spawnablePool.GetLaser();
-                laserProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                laserProj.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 laserProj.transform.position = TestBarrel.position;
                 laserProj.transform.rotation = TestBarrel.rotation;
@@ -160,7 +176,7 @@ public class ShootingScript : MonoBehaviour
                 break;
             case ShootType.Flame:
                 Rigidbody flameProj = _spawnablePool.GetFlame();
-                flameProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+                flameProj.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
                 flameProj.transform.position = TestBarrel.position;
                 flameProj.transform.rotation = TestBarrel.rotation;
@@ -168,7 +184,21 @@ public class ShootingScript : MonoBehaviour
                 flameProj.gameObject.GetComponent<TrailRenderer>().Clear();
                 flameProj.AddForce(flameProj.transform.up * _projSpeed, ForceMode.VelocityChange);
                 break;
-        }
+            case ShootType.Rocket:
+                Rigidbody rocketProj = _spawnablePool.GetRocket();
+                rocketProj.GetComponent<BulletScript>().SetStats(_currentDamage, _projLifetime);
 
+                rocketProj.transform.position = TestBarrel.position;
+                rocketProj.transform.rotation = TestBarrel.rotation;
+                rocketProj.transform.rotation *= Quaternion.Euler(90, randY, 0);
+                rocketProj.gameObject.GetComponent<TrailRenderer>().Clear();
+                rocketProj.AddForce(rocketProj.transform.up * _projSpeed, ForceMode.VelocityChange);
+                break;
+        }
+    }
+
+    public void ScaleStats(){
+        _currentRateOfFire = _rateOfFire * EnemySpawnManager.Instance.currentLevel + 1;
+        _currentDamage = _damage * EnemySpawnManager.Instance.currentLevel + 1;
     }
 }

@@ -2,45 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MEC;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float OFFSET_Y = 20f;
-    private const float OFFSET_Z = -7f;
+    private float OFFSET_Y = 14f;
+    private float OFFSET_Z = -3.8f;
     public Transform PlayerTorso;
     public Transform PlayerLegs;
+    public Animator Anim;
 
     public LayerMask Mask;
 
     public List<Transform> Limbs = new List<Transform>();
     public Transform[] Arms = new Transform[2];
-    public Transform[] Shoulders = new Transform[2];
-    private float m_currentMoveSpeed = 5f;
+    private float m_currentMoveSpeed = 4f;
+    private int _shields = 0;
+    private int _health = 3;
+
+    private float _internalWaitTime = 3;
 
     private Camera MainCamera;
     private Vector3 _lookPoint  = Vector3.zero;
     private Rigidbody _rb;
 
-    private bool _isRightClicked = false;
+    private List<AbilityScript> Abilities = new List<AbilityScript>();
+    private bool _isMiddleClicked = false;
+    private bool _isCharging = false;
+    private bool _canDash = true;
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
 
+
+    void Awake(){
+        _instance = this;
+    } 
     // Start is called before the first frame update
     void Start()
     {
         MainCamera = Camera.main;
-        _instance = this;
         _rb = GetComponent<Rigidbody>();
     }
 
     void Update(){
-        if(Input.GetMouseButtonDown(1)){
-            _isRightClicked = true;
+        if(EnemySpawnManager.Instance != null){
+            //Debug.Log(EnemySpawnManager.Instance.currentLevel);
+        }
+        //Debug.Log(_shields + " : " + _health);
+        if(Input.GetMouseButtonDown(2)){
+            _isMiddleClicked = true;
         }
 
-        if(Input.GetMouseButtonUp(1)){
-            _isRightClicked = false;
+        if(Input.GetMouseButtonUp(2)){
+            _isMiddleClicked = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space)){
+            foreach(AbilityScript ablity in Abilities){
+                ablity.ActivateAbility(KeyCode.Space);
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftShift)){
+            if(_canDash){
+                _rb.AddRelativeForce(PlayerLegs.forward * 400);
+                foreach(AbilityScript ablity in Abilities){
+                    ablity.ActivateAbility(KeyCode.R);
+                }
+                _canDash = false;
+                Timing.RunCoroutine(InternalTimer().CancelWith(gameObject));
+            }
         }
     }
 
@@ -57,23 +89,64 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Add Attachment");
             Destroy(col.gameObject);
 
-            int randLimb = Random.Range(0, Limbs.Count);
-            int randAttachment = Random.Range(0, Limbs[randLimb].childCount);
-            foreach(Transform attachment in Limbs[randLimb]){
-                attachment.gameObject.SetActive(false);
-            }
+            int randLimb = Random.Range(0, Limbs.Count - 1);
+            int randAttachment = Random.Range(0, Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects.Count);
 
-            if(!Limbs[randLimb].GetChild(randAttachment).gameObject.activeInHierarchy){
-                Limbs[randLimb].GetChild(randAttachment).gameObject.SetActive(true);
-            }
+            GameObject selectedAttachment = Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject;
 
+            if(selectedAttachment.activeInHierarchy){
+                if(selectedAttachment.GetComponent<ShootingScript>() != null){
+                    selectedAttachment.GetComponent<ShootingScript>().ScaleStats();
+                }
+                return;
+            }
+            
+            if(randLimb == (Limbs.Count - 2)){
+                foreach(Transform attachment in Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
+
+                foreach(Transform attachment in Limbs[Limbs.Count - 2].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
+
+                Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+
+                Limbs[Limbs.Count - 2].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
+            }
+            else{
+                foreach(Transform attachment in Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects){
+                    attachment.gameObject.SetActive(false);
+                }
+
+                selectedAttachment.gameObject.SetActive(true);
+                if(selectedAttachment.GetComponent<ShootingScript>() != null){
+                    selectedAttachment.GetComponent<ShootingScript>().ScaleStats();
+                }
+            }
+        }
+
+        if(col.gameObject.tag == "Enemy"){
+            if(_isCharging){
+                 EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
+                enemy.health -= 50f;
+            }
+            else{
+                Debug.Log("Took Damage");
+            }
         }
     }
     void FixedUpdate()
     {
-        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 3);
+        MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, new Vector3(transform.position.x, transform.position.y + OFFSET_Y, transform.position.z + OFFSET_Z), Time.deltaTime * 4);
         Movement();
         Aim();
+    }
+
+    private IEnumerator<float> InternalTimer(){
+        yield return Timing.WaitForSeconds(_internalWaitTime);
+
+        _canDash = true;
     }
 
     void Movement(){
@@ -91,6 +164,11 @@ public class PlayerController : MonoBehaviour
             _rb.MovePosition(_rb.position + velocity * Time.fixedDeltaTime);
 
             PlayerLegs.rotation = Quaternion.LookRotation(velocity);
+
+            Anim.SetBool("IsMoving", true);
+        }
+        else{
+            Anim.SetBool("IsMoving", false);
         }
     }
 
@@ -106,47 +184,107 @@ public class PlayerController : MonoBehaviour
         {
             _lookPoint = hit.point;
         }
-        if(!_isRightClicked){
-            var lookPos = _lookPoint - PlayerTorso.transform.position;
-            lookPos.y = 0;
+        _lookPoint.y = PlayerTorso.position.y;
+        var lookPos = _lookPoint - PlayerTorso.transform.position;
+        lookPos.y = 0;
+
+        if(!_isMiddleClicked){
+
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);
             
-            PlayerTorso.transform.rotation = Quaternion.Slerp(PlayerTorso.transform.rotation, rotation, Time.deltaTime * 20);
+            //PlayerTorso.transform.rotation = Quaternion.Slerp(PlayerTorso.transform.rotation, rotation, Time.deltaTime * 20);
+            PlayerTorso.transform.LookAt(_lookPoint);
 
-            Arms[0].localRotation = Quaternion.Euler(0,0,0);
-            Arms[1].localRotation = Quaternion.Euler(0,0,0);
-            Shoulders[0].localRotation = Quaternion.Euler(0,0,0);
-            Shoulders[1].localRotation = Quaternion.Euler(0,0,0);
+            Arms[0].localRotation = Quaternion.Euler(0,90,0);
+            Arms[1].localRotation = Quaternion.Euler(0,90,0);
         }
         else{
             if (DotResult > 0)
             {   
-                Arms[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                Arms[0].localRotation = Quaternion.Inverse(Arms[1].localRotation);
-                Shoulders[1].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                Shoulders[0].localRotation = Quaternion.Inverse(Shoulders[1].localRotation);
+                Arms[1].LookAt(_lookPoint);
+                Arms[1].localRotation *= Quaternion.Euler(-180,-90,0);
+                //Arms[0].localRotation = Quaternion.Inverse(Arms[1].localRotation);
+                Arms[0].localRotation = Arms[1].localRotation;
                 if(angle >= 90){
-                    PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                    PlayerTorso.LookAt(_lookPoint);
                     PlayerTorso.rotation *= Quaternion.Euler(0,-89.5f,0);
                 }
             }
             else
             {
-                Arms[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                Arms[1].localRotation = Quaternion.Inverse(Arms[0].localRotation);
-                Shoulders[0].LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
-                Shoulders[1].localRotation = Quaternion.Inverse(Shoulders[0].localRotation);
+                Arms[0].LookAt(_lookPoint);
+                Arms[0].localRotation *= Quaternion.Euler(0,90,0);
+                //Arms[1].localRotation = Quaternion.Inverse(Arms[0].localRotation);
+                Arms[1].localRotation = Arms[0].localRotation;
                 if(angle >= 90){
-                    PlayerTorso.LookAt(new Vector3(_lookPoint.x, PlayerTorso.position.y, _lookPoint.z));
+                    PlayerTorso.LookAt(_lookPoint);
                     PlayerTorso.rotation *= Quaternion.Euler(0,89.5f,0);
                 }
                     
             }
-        }
-
-        
+        }   
     }
 
+    public void AddAbility(AbilityScript ability){
+        Abilities.Add(ability);
+    }
+
+    public void RemoveAbility(AbilityScript ability){
+        Abilities.Remove(ability);
+    }
+
+    public void IncreaseRange(){
+        OFFSET_Y = 20f;
+        OFFSET_Z = -5.5f;
+    }
+
+    public void ResetRange(){
+        OFFSET_Y = 14f;
+        OFFSET_Z = -3.8f;
+    }
+
+    public void IncreaseSpeed(){
+        m_currentMoveSpeed = 7f;
+    }
+
+    public void ResetSpeed(){
+        m_currentMoveSpeed = 4f;
+    }
+
+    public void GainShield(){
+        _shields++;
+    }
+
+    public void RemoveShield(){
+        _shields--;
+    }
+
+    public void Charge(){
+        Timing.RunCoroutine(StartCharge().CancelWith(gameObject));
+    }
+
+    private IEnumerator<float> StartCharge(){
+        Anim.SetTrigger("Dash");
+        _isCharging = true;
+        yield return Timing.WaitForSeconds(1);
+        _isCharging = false;
+    }
+
+    public void TakeDamage(){
+        if(_shields > 0){
+            _shields--;
+            GameObject shieldObj = Abilities.FirstOrDefault(x => x.Type == AbilityScript.AbilityType.Shield).gameObject;
+            shieldObj.SetActive(false);
+            return;
+        }
+
+        _health--;
+        Camera.main.GetComponent<StressReceiver>().InduceStress(0.3f);
+
+        if(_health <= 0){
+            Destroy(gameObject);
+        }
+    }
     public Vector3 LookPoint { get { return _lookPoint;}}
 }

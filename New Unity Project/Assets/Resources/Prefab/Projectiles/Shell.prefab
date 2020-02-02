@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8321846802206843071}
   - component: {fileID: 5691275178595824450}
   - component: {fileID: 1245359699239646466}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 8824527672992107282}
   - component: {fileID: 1006589097598978139}
   - component: {fileID: 4555123297646019694}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,9 +200,9 @@ GameObject:
   - component: {fileID: -679306718382864352}
   - component: {fileID: -9020051165236210547}
   - component: {fileID: 4852195424279044598}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Shell
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,9 +251,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fa238fdf8dd06439fb93059ef9c91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   ImpactEffect: {fileID: 181341431696174585, guid: 0e8e13ed3db19754e805650cf39d2383,
     type: 3}
+  layer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!96 &4852195424279044598
 TrailRenderer:
   serializedVersion: 2
