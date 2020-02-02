@@ -8,7 +8,7 @@ using TMPro;
 public class BulletScript : MonoBehaviour
 {
 
-    public enum ProjectileType { Bullet, Explosive };
+    public enum ProjectileType { Bullet, Grenade , Rocket};
     public ProjectileType Type;
     public GameObject ImpactEffect;
     public LayerMask layer;
@@ -32,30 +32,10 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-
-        if(ImpactEffect != null){
-            Instantiate(ImpactEffect, transform.position, Quaternion.identity);
-        }
-
-        switch (Type){
-            case ProjectileType.Explosive:
-                Collider[] colliders = Physics.OverlapSphere(transform.position, 2, layer.value);
-
-                foreach(Collider coll in colliders){
-                    EnemyBase enemy = coll.gameObject.GetComponent<EnemyBase>();
-                    enemy.health -= _dmg;
-                }
-                float stress = 2 / Vector3.Distance(PlayerController.Instance.transform.position, transform.position);
-                stress = Mathf.Clamp(stress, 0, 0.4f);
-                Camera.main.GetComponent<StressReceiver>().InduceStress(stress);
-                break;
-            case ProjectileType.Bullet:
-                if (col.gameObject.tag == ENEMY_TAG)
-                {
-                    EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
-                    enemy.health -= _dmg;
-                }
-                break;
+        if (col.gameObject.tag == ENEMY_TAG)
+        {
+            EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
+            enemy.health -= _dmg;
         }
 
         Despawn();
@@ -69,6 +49,10 @@ public class BulletScript : MonoBehaviour
             transform.rotation *= Quaternion.Euler(90,0,0);
         }
 
+        if(Type == ProjectileType.Rocket){
+            Debug.Log("Rocket");
+            _rb.AddForce((PlayerController.Instance.LookPoint - transform.position) * 4, ForceMode.Acceleration);
+        }
         _lifeTime -= Time.deltaTime;
 
         if(_lifeTime <= 0){
@@ -79,6 +63,22 @@ public class BulletScript : MonoBehaviour
 
     private void Despawn()
     {
+        if(ImpactEffect != null){
+            Instantiate(ImpactEffect, transform.position, Quaternion.identity);
+        }
+
+        if(Type == ProjectileType.Grenade || Type == ProjectileType.Rocket){
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 2, layer.value);
+
+            foreach(Collider coll in colliders){
+                EnemyBase enemy = coll.gameObject.GetComponent<EnemyBase>();
+                enemy.health -= _dmg;
+            }
+            float stress = 2 / Vector3.Distance(PlayerController.Instance.transform.position, transform.position);
+            stress = Mathf.Clamp(stress, 0, 0.4f);
+            Camera.main.GetComponent<StressReceiver>().InduceStress(stress);
+        }
+
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         GetComponent<Rigidbody>().velocity = Vector3.zero;

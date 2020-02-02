@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private List<AbilityScript> Abilities = new List<AbilityScript>();
     private bool _isRightClicked = false;
+    private bool _isCharging = false;
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
@@ -100,9 +101,16 @@ public class PlayerController : MonoBehaviour
 
                 Limbs[randLimb].GetComponent<Attachments>().AttachmentObjects[randAttachment].gameObject.SetActive(true);
             }
+        }
 
-
-
+        if(col.gameObject.tag == "Enemy"){
+            if(_isCharging){
+                 EnemyBase enemy = col.gameObject.GetComponent<EnemyBase>();
+                enemy.health -= 50f;
+            }
+            else{
+                Debug.Log("Took Damage");
+            }
         }
     }
     void FixedUpdate()
@@ -216,6 +224,16 @@ public class PlayerController : MonoBehaviour
 
     public void RemoveShield(){
         _shields--;
+    }
+
+    public void Charge(){
+        Timing.RunCoroutine(StartCharge().CancelWith(gameObject));
+    }
+
+    private IEnumerator<float> StartCharge(){
+        _isCharging = true;
+        yield return Timing.WaitForSeconds(1);
+        _isCharging = false;
     }
     public Vector3 LookPoint { get { return _lookPoint;}}
 }

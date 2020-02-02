@@ -102,7 +102,7 @@ public class AbilityScript : MonoBehaviour
                         break;
                     case AbilityType.Dash:
                         transform.root.transform.GetComponent<Rigidbody>().AddRelativeForce(PlayerController.Instance.PlayerLegs.forward * 400);
-
+                        playerController.Charge();
                         break;
                 }
                 _canActivate = false;

@@ -6,7 +6,7 @@ using MEC;
 public class ShootingScript : MonoBehaviour
 {
 
-    public enum ShootType { Bullet, Lobbing, Laser, Flame};
+    public enum ShootType { Bullet, Lobbing, Laser, Flame, Rocket};
     public ShootType Type;
     public Transform TestBarrel;
     public GameObject BarrelEffect;
@@ -166,6 +166,16 @@ public class ShootingScript : MonoBehaviour
                 flameProj.transform.rotation *= Quaternion.Euler(90, randY, 0);
                 flameProj.gameObject.GetComponent<TrailRenderer>().Clear();
                 flameProj.AddForce(flameProj.transform.up * _projSpeed, ForceMode.VelocityChange);
+                break;
+            case ShootType.Rocket:
+                Rigidbody rocketProj = _spawnablePool.GetRocket();
+                rocketProj.GetComponent<BulletScript>().SetStats(_damage, _projLifetime);
+
+                rocketProj.transform.position = TestBarrel.position;
+                rocketProj.transform.rotation = TestBarrel.rotation;
+                rocketProj.transform.rotation *= Quaternion.Euler(90, randY, 0);
+                rocketProj.gameObject.GetComponent<TrailRenderer>().Clear();
+                rocketProj.AddForce(rocketProj.transform.up * _projSpeed, ForceMode.VelocityChange);
                 break;
         }
 

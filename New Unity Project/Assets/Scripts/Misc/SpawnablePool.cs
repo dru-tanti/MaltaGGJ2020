@@ -8,6 +8,7 @@ public class SpawnablePool : MonoBehaviour
     public Rigidbody Shell;
     public Rigidbody Laser;
     public Rigidbody Flame;
+    public Rigidbody Rocket;
 
     public int AmmountToPool;
 
@@ -15,6 +16,7 @@ public class SpawnablePool : MonoBehaviour
     private List<Rigidbody> ShellList = new List<Rigidbody>();
     private List<Rigidbody> LaserList = new List<Rigidbody>();
     private List<Rigidbody> FlameList = new List<Rigidbody>();
+    private List<Rigidbody> RocketList = new List<Rigidbody>();
     private List<GameObject> DamageTextList = new List<GameObject>();
 
     private static SpawnablePool _instance;
@@ -47,6 +49,11 @@ public class SpawnablePool : MonoBehaviour
             flame.transform.parent = transform;
             FlameList.Add(flame);
             flame.gameObject.SetActive(false);
+
+            Rigidbody rocket = Instantiate(Rocket) as Rigidbody;
+            rocket.transform.parent = transform;
+            RocketList.Add(rocket);
+            rocket.gameObject.SetActive(false);
         }
         
             
@@ -119,4 +126,20 @@ public class SpawnablePool : MonoBehaviour
         return flame;
     }
 
+    public Rigidbody GetRocket()
+    {
+        foreach(Rigidbody roketObj in RocketList)
+        {
+            if (!roketObj.gameObject.activeInHierarchy)
+            {
+                roketObj.gameObject.SetActive(true);
+                return roketObj;
+            }
+        }
+
+        Rigidbody rocket = Instantiate(Rocket) as Rigidbody;
+        rocket.transform.parent = transform;
+        RocketList.Add(rocket);
+        return rocket;
+    }
 }
