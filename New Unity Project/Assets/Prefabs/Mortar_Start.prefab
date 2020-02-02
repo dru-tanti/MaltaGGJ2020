@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6657776703202553972}
   - component: {fileID: 7078276919984346554}
   - component: {fileID: 5221473645829320247}
-  - component: {fileID: -4432033598122905643}
+  - component: {fileID: -4278881861395729346}
   - component: {fileID: 9145051326413774440}
   m_Layer: 0
-  m_Name: Mortar Effect
+  m_Name: Mortar_Start
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4432033598122905643
+--- !u!114 &-4278881861395729346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,15 +104,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8063227564465879291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67a6db4cfdddd7042ad32ccb575847a2, type: 3}
+  m_Script: {fileID: 11500000, guid: c0c91d1bfcce3df41a557b90c6b69c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  lifetime: 2
-  Mortar: 0
-  timeToDrop: 0
-  hitMarkerRing: {fileID: 0}
-  hitMarkerCircle: {fileID: 0}
+  lifetime: 4
+  Mortar: 1
 --- !u!54 &9145051326413774440
 Rigidbody:
   m_ObjectHideFlags: 0

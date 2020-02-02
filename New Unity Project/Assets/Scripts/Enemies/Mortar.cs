@@ -15,18 +15,21 @@ public class Mortar : Projectile {
     protected override void Start() {
         hitMarkerCircle.GetComponent<SpriteRenderer>().color = hitMarkerColour;
         hitMarkerRing.GetComponent<SpriteRenderer>().color = hitMarkerColour;
-        var hitmarkerring = Instantiate(hitMarkerRing, new Vector3 (transform.position.x, 0.1f ,transform.position.z),  Quaternion.Euler(90, 0, 0));
-        var hitmarkercircle = Instantiate(hitMarkerCircle, new Vector3 (transform.position.x, 0.1f ,transform.position.z),  Quaternion.Euler(90, 0, 0));
-        // hitmarkerring.transform.parent = gameObject.transform;
-        // hitmarkercircle.transform.parent = gameObject.transform;
+        GameObject ring = Instantiate(hitMarkerRing, new Vector3 (transform.position.x, -0.9f ,transform.position.z),  Quaternion.Euler(90, 0, 0));
+        GameObject circle = Instantiate(hitMarkerCircle, new Vector3 (transform.position.x, -0.9f ,transform.position.z),  Quaternion.Euler(90, 0, 0));
+        ring.transform.parent = gameObject.transform;
+        circle.transform.parent = gameObject.transform;
         StartCoroutine(DropMortar());
         Destroy(gameObject, timeToDrop + lifetime);
     }
 
     protected void Update() {
         timer += Time.deltaTime;
-        if(!_dropping) hitMarkerCircle.transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(2f, 2f, 2f), timer / timeToDrop);
-        if(_dropping) _bulletRB.velocity = transform.TransformDirection(Vector3.down) * speed;    
+        Debug.Log(transform.GetChild(3));
+        if(!_dropping) transform.GetChild(3).localScale = Vector3.Lerp(new Vector3(0f, 0f, 0f), new Vector3(2f, 2f, 2f), timer / timeToDrop);
+        if(_dropping) {
+            _bulletRB.velocity = transform.TransformDirection(Vector3.down) * speed;
+        }    
     }
 
     private IEnumerator DropMortar() {
@@ -35,11 +38,11 @@ public class Mortar : Projectile {
         _dropping = true;
     }
 
-    protected override void OnTriggerEnter(Collider other) {
+    void OnCollisionEnter(Collision other){
         if (other.gameObject.tag == "Player") {
             Debug.Log("Player has been dealt damage");
         }
-        Instantiate(ImpactEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        if(ImpactEffect  != null) Instantiate(ImpactEffect, transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 }
