@@ -6,9 +6,8 @@ using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
-    public int health;
-    private const float OFFSET_Y = 20f;
-    private const float OFFSET_Z = -7f;
+    private float OFFSET_Y = 14f;
+    private float OFFSET_Z = -3.8f;
     public Transform PlayerTorso;
     public Transform PlayerLegs;
     public Animator Anim;
@@ -38,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake(){
         _instance = this;
-    }
+    } 
     // Start is called before the first frame update
     void Start()
     {
@@ -101,7 +100,7 @@ public class PlayerController : MonoBehaviour
                 }
                 return;
             }
-
+            
             if(randLimb == (Limbs.Count - 2)){
                 foreach(Transform attachment in Limbs[Limbs.Count - 1].GetComponent<Attachments>().AttachmentObjects){
                     attachment.gameObject.SetActive(false);
@@ -193,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
 
             Quaternion rotation = Quaternion.LookRotation(lookPos);
-
+            
             //PlayerTorso.transform.rotation = Quaternion.Slerp(PlayerTorso.transform.rotation, rotation, Time.deltaTime * 20);
             PlayerTorso.transform.LookAt(_lookPoint);
 
@@ -202,7 +201,7 @@ public class PlayerController : MonoBehaviour
         }
         else{
             if (DotResult > 0)
-            {
+            {   
                 Arms[1].LookAt(_lookPoint);
                 Arms[1].localRotation *= Quaternion.Euler(-180,-90,0);
                 //Arms[0].localRotation = Quaternion.Inverse(Arms[1].localRotation);
@@ -222,9 +221,9 @@ public class PlayerController : MonoBehaviour
                     PlayerTorso.LookAt(_lookPoint);
                     PlayerTorso.rotation *= Quaternion.Euler(0,89.5f,0);
                 }
-
+                    
             }
-        }
+        }   
     }
 
     public void AddAbility(AbilityScript ability){
@@ -247,10 +246,6 @@ public class PlayerController : MonoBehaviour
 
     public void IncreaseSpeed(){
         m_currentMoveSpeed = 7f;
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
     }
 
     public void ResetSpeed(){
