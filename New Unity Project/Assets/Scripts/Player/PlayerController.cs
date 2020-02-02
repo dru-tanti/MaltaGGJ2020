@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.R)){
+        if(Input.GetKeyDown(KeyCode.LeftShift)){
             if(_canDash){
                 _rb.AddRelativeForce(PlayerLegs.forward * 400);
                 foreach(AbilityScript ablity in Abilities){

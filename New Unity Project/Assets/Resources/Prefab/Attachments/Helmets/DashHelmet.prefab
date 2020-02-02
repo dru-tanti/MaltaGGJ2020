@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 1
   _internalWaitTime: 3
-  KeyRequired: 114
+  KeyRequired: 304
   Effect: {fileID: 0}
   layer:
     serializedVersion: 2
