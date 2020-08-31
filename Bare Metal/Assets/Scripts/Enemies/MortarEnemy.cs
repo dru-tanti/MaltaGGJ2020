@@ -17,7 +17,9 @@ public class MortarEnemy : EnemyBase {
         if(Vector3.Distance(transform.position, player.transform.position) >= range){
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
-
+        if(Vector3.Distance(transform.position, player.transform.position) <= range/2){
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -speed * Time.deltaTime);
+        }
     }
     
     private void FireMortar() {

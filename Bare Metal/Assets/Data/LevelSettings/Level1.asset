@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   difficulty: 1
-  maxEnemies: 20
+  maxEnemies: 1

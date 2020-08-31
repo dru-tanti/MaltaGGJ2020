@@ -31,9 +31,10 @@ public class Mortar : MonoBehaviour {
 
     void Update() {
         timer += Time.deltaTime;
-        if(!_dropping) transform.GetChild(3).localScale = Vector3.Lerp(new Vector3(0f, 0f, 0f), new Vector3(2f, 2f, 2f), timer / timeToDrop);
+        transform.GetChild(3).localScale = Vector3.Lerp(new Vector3(0f, 0f, 0f), new Vector3(1.5f, 1.5f, 1.5f), timer / timeToDrop);
         if(_dropping) {
             _bulletRB.velocity = transform.TransformDirection(Vector3.down) * speed;
+            transform.GetChild(3).position = transform.GetChild(3).TransformDirection(Vector3.up) * speed;
         }    
     }
 

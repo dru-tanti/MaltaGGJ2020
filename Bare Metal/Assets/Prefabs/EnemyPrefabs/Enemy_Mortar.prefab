@@ -671,7 +671,7 @@ MonoBehaviour:
   projectile: {fileID: 181341431696174585, guid: 0e8e13ed3db19754e805650cf39d2383,
     type: 3}
   pickup: {fileID: 2709645799848838768, guid: 945fa38b8317bec45b238d23c497c6a4, type: 3}
-  fireRate: 60
+  fireRate: 15
   range: 15
   mortar: {fileID: 8124001025169503352, guid: f621eb8add45ef3498677906364672aa, type: 3}
 --- !u!1 &7536873548439759729
@@ -716,6 +716,7 @@ GameObject:
   - component: {fileID: 156176555821795606}
   - component: {fileID: 2723630015188747530}
   - component: {fileID: 3823658562887100406}
+  - component: {fileID: 7470222898578233338}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -784,6 +785,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &7470222898578233338
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777629810691261373}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8032958626024816742
 GameObject:
   m_ObjectHideFlags: 0
